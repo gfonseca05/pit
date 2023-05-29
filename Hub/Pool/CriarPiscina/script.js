@@ -18,7 +18,8 @@ window.addEventListener("DOMContentLoaded", () => {
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
   renderer.setClearColor(0xffffff);
-  document.body.appendChild(renderer.domElement);
+  var canvasContainer = document.getElementById("canvas-container")
+  canvasContainer.appendChild(renderer.domElement);
 
   // Create the initial rectangle geometry
   const initialWidth = 5;
