@@ -94,7 +94,7 @@ $row = mysqli_fetch_assoc($result);
             <a href="update.php"
                 class="edit rounded-lg bg-sky-500 transition duration-700 ease-in-out hover:bg-sky-400 w-full row-span-2 md:col-span-2 md:bg-sky-800 md:hover:bg-violet-700 flex items-center justify-center h-2/3 self-center">Editar
                 Perfil</a>
-            <a href="../Password/password.php"
+            <a href="../../database/password.php"
                 class="changePsw rounded-lg bg-blue-500 transition duration-700 ease-in-out hover:bg-blue-600 w-full row-span-2 flex items-center justify-center md:row-start-7 md:row-span-2 md:col-span-2 md:h-full md:bg-blue-800 md:hover:bg-indigo-700">
                 Alterar
                 Senha</a>

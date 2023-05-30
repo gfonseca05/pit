@@ -5,8 +5,9 @@
             $email = $_POST["email"];
             $user = $_POST["user"];
             $password = ($_POST["psw"]);
+            $code = mt_rand(10000, 99999);
             
-            $sql = "INSERT INTO user (nome, email, senha) VALUES ('{$user}', '{$email}', '{$password}')";
+            $sql = "INSERT INTO user (nome, email, senha, verify_cod) VALUES ('{$user}', '{$email}', '{$password}', '{$code}')";
             $result = $conn->query($sql);
             
             if($result==true){

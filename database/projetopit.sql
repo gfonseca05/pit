@@ -6,7 +6,8 @@ create table user (
     email varchar(120) not null,
     senha varchar(254) not null,
     telefone varchar(15),
-    endereco varchar(120)
+    endereco varchar(120),
+    verify_cod varchar(5) not null
 );
 
 create table piscina (
