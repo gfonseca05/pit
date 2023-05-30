@@ -5,7 +5,6 @@ if (isset($_POST['login'])) {
   $email = $_POST["email"];
   $password = $_POST["psw"];
 
-  // Filtro de entrada para evitar ataques de injeção de SQL
   $email = mysqli_real_escape_string($conn, $email);
 
   $sql = "SELECT * FROM user WHERE email = '{$email}'";
@@ -15,7 +14,6 @@ if (isset($_POST['login'])) {
     $user = mysqli_fetch_assoc($result);
     $hashedPassword = $user['senha'];
 
-    // Verifica a senha usando password_verify
     if ($password == $hashedPassword) {
       echo "<script>alert('Login bem-sucedido.');</script>";
       echo "<script>location.href='../Hub/Profile/profile.php';</script>";
@@ -23,7 +21,7 @@ if (isset($_POST['login'])) {
       echo "<script>alert('Email ou senha inválidos.');</script>";
     }
   } else {
-    echo "<script>alert('Email ou senha inválidos de mais.');</script>";
+    echo "<script>alert('Email ou senha inválidos.');</script>";
   }
 }
 ?>
