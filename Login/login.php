@@ -17,7 +17,7 @@ if (isset($_POST['login'])) {
     if ($password == $hashedPassword) {
       echo "<script>alert('Login bem-sucedido.');</script>";
       session_start();
-      $_SESSION['user_id'] = $email;
+      $_SESSION['email'] = $email;
       echo "<script>location.href='../Hub/Profile/profile.php';</script>";
     } else {
       echo "<script>alert('Email ou senha inválidos.');</script>";
@@ -66,7 +66,7 @@ if (isset($_POST['login'])) {
     <div class="user row-start-1 col-start-1 col-end-3">
       <label for="user">Email</label> <br />
         <input
-        class="peer border border-sky-500 rounded-full min-w-full h-12 focus:outline-none focus:ring focus:ring-sky-500"
+        class="peer border border-sky-500 rounded-full min-w-full h-12 focus:outline-none focus:ring focus:ring-sky-500 p-2"
         type="email" name="email" required/>
         <p class="invisible peer-invalid:visible text-pink-600 text-sm">
           Insira um email válido.
@@ -76,7 +76,7 @@ if (isset($_POST['login'])) {
         <label for="psw">Senha</label> <br />
         <div class="relative">
           <input id="senha"
-          class="border border-sky-500 rounded-full h-12 min-w-full focus:outline-none focus:ring focus:ring-sky-500"
+          class="border border-sky-500 rounded-full h-12 min-w-full focus:outline-none focus:ring focus:ring-sky-500 p-2"
           type="password" name="psw" required/>
           <i class="absolute top-0 right-0 h-full w-5 flex items-center justify-center mr-4 cursor-pointer"
           onclick="viewPSW()">

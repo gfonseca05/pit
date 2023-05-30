@@ -25,38 +25,32 @@
             </path>
         </svg>
         <form action="" method="POST"
-            class="register h-1/2 p-4 max-w-7xl self-center justify-self-center shadow-lg shadow-gray-400/40 rounded-lg grid grid-cols-1 gap-3 grid-rows-6">
+            class="register p-4 max-w-7xl self-center justify-self-center shadow-lg shadow-gray-400/40 rounded-lg grid grid-cols-1 gap-3 grid-rows-5">
             <div class="name">
                 <label for="name">Nome</label>
                 <input type="text"
-                    class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500"
+                    class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500 p-2"
                     id="name" name="name">
-            </div>
-            <div class="lastName">
-                <label for="lName">Sobrenome</label>
-                <input type="text"
-                    class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500"
-                    id="lastName" name="lName">
             </div>
             <div class="email">
                 <label for="email">Email</label>
                 <input type="email"
-                    class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500"
+                    class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500 p-2"
                     id="email" name="email">
             </div>
             <div class="phone">
                 <label for="phone">Telefone</label>
                 <input type="tel"
-                    class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500"
+                    class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500 p-2"
                     id="phone" name="phone">
             </div>
             <div class="address">
                 <label for="address">Endereço</label>
                 <input type="text"
-                    class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500"
+                    class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500 p-2"
                     id="address" name="address">
             </div>
-            <button class="save rounded-lg bg-sky-800 transition duration-700 ease-in-out w-full hover:bg-violet-700 flex items-center justify-center text-white">Salvar Mudanças</button>
+            <button class="save rounded-lg bg-sky-800 transition duration-700 ease-in-out w-full hover:bg-violet-700 flex items-center justify-center text-white h-2/3 self-center">Salvar Mudanças</button>
         </form>
         <svg class="absolute bottom-0" id="wave" style="transform: rotate(0deg); transition: 0.3s"
             viewBox="0 0 1440 120" version="1.1" xmlns="http://www.w3.org/2000/svg">

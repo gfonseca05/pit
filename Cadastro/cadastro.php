@@ -33,19 +33,19 @@
     <form action="../database/database.php" method="POST" class="register h-1/2 p-4 max-w-7xl self-center justify-self-center shadow-lg shadow-gray-400/40 rounded-lg grid grid-cols-4 gap-3 grid-rows-5 md:m-0 ml-24 mr-24">
       <div class="user row-start-1 md:col-span-2 col-span-4">
         <label for="mail">Email</label> <br />
-        <input class="peer border border-sky-500 rounded-full min-w-full h-fit focus:outline-none focus:ring focus:ring-sky-500" type="email" name="email" required/>
+        <input class="peer border border-sky-500 rounded-full min-w-full h-fit focus:outline-none focus:ring focus:ring-sky-500 p-2" type="email" name="email" required/>
         <p class="invisible peer-invalid:visible text-pink-600 text-sm">
           Insira um email válido.
         </p>
       </div>
       <div class="user row-start-2 md:col-span-2 col-span-4">
         <label for="user">Usuário</label> <br />
-        <input class="border border-sky-500 rounded-full min-w-full h-fit focus:outline-none focus:ring focus:ring-sky-500" type="text" name="user" required/>
+        <input class="border border-sky-500 rounded-full min-w-full h-fit focus:outline-none focus:ring focus:ring-sky-500 p-2" type="text" name="user" required/>
       </div>
       <div class="psw row-start-3 md:col-span-2 col-span-4">
         <label for="psw">Senha</label> <br />
         <div class="relative">
-          <input id="senha" class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500" type="password" name="psw" oninput="password()" required/>
+          <input id="senha" class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500 p-2" type="password" name="psw" oninput="password()" required/>
           <i class="absolute top-0 right-0 h-full w-5 flex items-center justify-center mr-4 cursor-pointer" onclick="viewPSW(document.getElementById('senha'), document.getElementById('eye'))">
             <img id="eye" src="../assets/eye-closed-svgrepo-com.svg"></img>
           </i>
@@ -54,7 +54,7 @@
       <div class="psw row-start-4 md:col-span-2 col-span-4">
         <label for="Rpsw">Repetir Senha</label> <br />
         <div class="relative">
-          <input id="repetSenha" class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500" type="password" name="Rpsw" oninput="password()" required />
+          <input id="repetSenha" class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500 p-2" type="password" name="Rpsw" oninput="password()" required />
           <i class="absolute top-0 right-0 h-full w-5 flex items-center justify-center mr-4 cursor-pointer" onclick="viewPSW(document.getElementById('repetSenha'), document.getElementById('Reye'))">
             <img id="Reye" src="../assets/eye-closed-svgrepo-com.svg"></img>
           </i>
