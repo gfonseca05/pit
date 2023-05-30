@@ -1,20 +1,29 @@
 <?php
-  include("../database/config.php");
-  $email = "";
-  if(isset($_POST['login'])){
-    $email = $_POST["email"];
-    $password = md5($_POST["psw"]);
+include("../database/config.php");
+$email = "";
+if (isset($_POST['login'])) {
+  $email = $_POST["email"];
+  $password = $_POST["psw"];
 
-    $sql = "SELECT COUNT(*) FROM user WHERE email = '{$email}'";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $count = $stmt->fetch();
+  // Filtro de entrada para evitar ataques de injeção de SQL
+  $email = mysqli_real_escape_string($conn, $email);
 
-    if($count > 0){
-      print "<script>alert('Email válido.');</script>";
-      print "<script>location.href='../Hub/main.php';</script>";
-    }else{
-    print "<script>alert('Email ou senha inválidos.');</script>";
+  $sql = "SELECT * FROM user WHERE email = '{$email}'";
+  $result = mysqli_query($conn, $sql);
+
+  if ($result && mysqli_num_rows($result) > 0) {
+    $user = mysqli_fetch_assoc($result);
+    $hashedPassword = $user['senha'];
+
+    // Verifica a senha usando password_verify
+    if ($password == $hashedPassword) {
+      echo "<script>alert('Login bem-sucedido.');</script>";
+      echo "<script>location.href='../Hub/Profile/profile.php';</script>";
+    } else {
+      echo "<script>alert('Email ou senha inválidos.');</script>";
+    }
+  } else {
+    echo "<script>alert('Email ou senha inválidos de mais.');</script>";
   }
 }
 ?>
