@@ -1,9 +1,10 @@
-create table User (
+create database pit;
+use pit;
+create table user (
 	user_id int primary key not null auto_increment,
     nome varchar(40) not null,
-    sobrenome varchar(80) not null,
     email varchar(120) not null,
-    senha varchar(8) not null,
+    senha varchar(255) not null,
     telefone varchar(15),
     endereco varchar(120)
 );

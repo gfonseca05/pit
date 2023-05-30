@@ -1,3 +1,26 @@
+<?php
+$configPath = dirname(dirname(dirname(__FILE__))) . '/database/config.php';
+include($configPath);
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+$query = "SELECT * FROM user WHERE user_id = $user_id";
+
+$result = mysqli_query($conn, $query);
+
+if (!$result) {
+    echo "Erro na consulta: " . mysqli_error($conn);
+    exit();
+}
+
+$row = mysqli_fetch_assoc($result);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -30,7 +53,7 @@
                 <span class="material-symbols-outlined mt-1 text-sky-600 ">
                     person
                 </span>
-                <p class="text-left ml-3" id="user">Nome do usário</p>
+                <p class="text-left ml-3" id="user"><?php echo $row['nome'] ?></p>
             </div>
             <div class="mail flex w-full col-span-2">
                 <span class="material-symbols-outlined mt-1 text-sky-600 ">

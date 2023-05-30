@@ -4,9 +4,9 @@
         case 'cadastrar':
             $email = $_POST["email"];
             $user = $_POST["user"];
-            $password = md5($_POST["psw"]);
+            $password = ($_POST["psw"]);
             
-            $sql = "INSERT INTO user (user, email, senha) VALUES ('{$user}', '{$email}', '{$password}')";
+            $sql = "INSERT INTO user (nome, email, senha) VALUES ('{$user}', '{$email}', '{$password}')";
             $result = $conn->query($sql);
             
             if($result==true){

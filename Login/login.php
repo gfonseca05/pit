@@ -16,6 +16,8 @@ if (isset($_POST['login'])) {
 
     if ($password == $hashedPassword) {
       echo "<script>alert('Login bem-sucedido.');</script>";
+      session_start();
+      $_SESSION['user_id'] = $email;
       echo "<script>location.href='../Hub/Profile/profile.php';</script>";
     } else {
       echo "<script>alert('Email ou senha inválidos.');</script>";
