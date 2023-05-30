@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página com Foto de Perfil e Menu Dropdown</title>
+    <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         .profile-image {
@@ -22,6 +22,9 @@
 </head>
 
 <body class="bg-gray-100">
+    <?php
+    print "<h2>Olá, ". $email ."</h2>";
+    ?>
     <div class="flex justify-end items-center p-4 relative">
         <div class="relative z-10">
             <div class="profile-image"></div>
@@ -41,19 +44,11 @@
                 <p class="text-gray-600 mt-2">Clique no card para ir para a página da piscina.</p>
             </div>
             <div class="p-4">
-                <a href="piscina.html" class="block bg-blue-500 hover:bg-blue-600 text-white text-center font-semibold py-2 px-4 rounded">Ir para a Página da Piscina</a>
+                <a href="./Pool/CriarPiscina/pool.html" class="block bg-blue-500 hover:bg-blue-600 text-white text-center font-semibold py-2 px-4 rounded">Adicionar Piscina</a>
             </div>
         </div>
     </div>
-
-    <script>
-        const profileImage = document.querySelector('.profile-image');
-
-        profileImage.addEventListener('click', function () {
-            const dropdown = document.querySelector('.dropdown-content');
-            dropdown.classList.toggle('hidden');
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 
 </html>

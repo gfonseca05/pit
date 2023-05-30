@@ -72,3 +72,11 @@ window.addEventListener("DOMContentLoaded", () => {
   }
   animate();
 });
+
+//main
+const profileImage = document.querySelector('.profile-image');
+
+profileImage.addEventListener('click', function () {
+    const dropdown = document.querySelector('.dropdown-content');
+    dropdown.classList.toggle('hidden');
+});

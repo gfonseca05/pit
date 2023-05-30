@@ -1,4 +1,3 @@
-
 create table User (
 	user_id int primary key not null auto_increment,
     nome varchar(40) not null,

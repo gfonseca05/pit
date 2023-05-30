@@ -1,17 +1,17 @@
 <?php
     include("./config.php");
-    switch($_REQUEST["acao"]){
+    switch($_REQUEST['acao']){
         case 'cadastrar':
             $email = $_POST["email"];
             $user = $_POST["user"];
             $password = md5($_POST["psw"]);
-
+            
             $sql = "INSERT INTO user (user, email, senha) VALUES ('{$user}', '{$email}', '{$password}')";
             $result = $conn->query($sql);
-
+            
             if($result==true){
                 print "<script>alert('Cadastro concluído!');</script>";
-                print "<script>location.href='';</script>";
+                print "<script>location.href='../Login/login.php';</script>";
             }else{
                 print "<script>alert('ERRO: Não foi possível concluir o cadastro!');</script>";
             }
