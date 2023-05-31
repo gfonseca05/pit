@@ -64,7 +64,7 @@
                     }
                     if($result==true){
                         //não esta reconhecndo o $newpass
-                        $query = "UPDATE user SET senha='{$newpass}' WHERE verify_cod = '{$code}'";
+                        $query = "UPDATE user SET senha= '{$newpass}' WHERE verify_cod = '{$code}'";
                         $result = mysqli_query($conn, $query);
                         print "<script>alert('Edição concluída!');</script>";
                         print "<script>location.href='../Hub/Profile/profile.php';</script>";

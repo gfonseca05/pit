@@ -7,6 +7,7 @@ if (isset($_POST['login'])) {
 
   $email = mysqli_real_escape_string($conn, $email);
   $user_id = mysqli_real_escape_string($conn, $user_id);
+  $verify_code = mysqli_real_escape_string($conn, $verify_code);
 
   $sql = "SELECT * FROM user WHERE email = '{$email}'";
   $result = mysqli_query($conn, $sql);
