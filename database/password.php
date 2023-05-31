@@ -9,7 +9,6 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $query = "SELECT * FROM user WHERE email = '{$_SESSION['email']}'";
-
 $result = mysqli_query($conn, $query);
 
 if (!$result) {

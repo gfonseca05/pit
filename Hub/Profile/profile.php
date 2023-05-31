@@ -1,12 +1,6 @@
 <?php
-$configPath = dirname(dirname(dirname(__FILE__))) . '/database/config.php';
-include($configPath);
+include('../../database/config.php');
 session_start();
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
-}
 
 $query = "SELECT * FROM user WHERE email = '{$_SESSION['email']}'";
 

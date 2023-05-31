@@ -18,53 +18,59 @@
             }
             break;
             case 'editar':
-                $nome = $_POST["nome"];
+                session_start();
+
+                $query = "SELECT user_id FROM user WHERE email = '{$_SESSION['email']}'";
+                $result = mysqli_query($conn, $query);
+                if (!$result) {
+                    echo "Erro na consulta: " . mysqli_error($conn);
+                    exit();
+                }
+                $row = mysqli_fetch_assoc($result);
+
+                $nome = $_POST["name"];
                 $email = $_POST["email"];
-                $senha = md5($_POST["senha"]);
-                $data_nasc = $_POST["data"];
+                $telefone = $_POST["phone"];
+                $endereco = $_POST["address"];
 
-
-                $sql = "UPDATE usuarios SET nome='{$nome}',
+                $sql = "UPDATE user SET nome='{$nome}',
                                             email='{$email}',
-                                            senha='{$senha}',
-                                            data_nasc='{$data_nasc}'
+                                            telefone='{$telefone}',
+                                            endereco='{$endereco}'
                                         WHERE
-                                            id =".$_REQUEST['id'];
-                $result = $conf->query($sql);
+                                            user_id = '{$row['user_id']}'"; 
+                $result = $conn->query($sql);
 
                 if($result==true){
+                    $_SESSION['email'] = $email;
                     print "<script>alert('Edição concluída!');</script>";
-                    print "<script>location.href='?page=listar';</script>";
+                    print "<script>location.href='../Hub/Profile/profile.php';</script>";
                 }else{
                     print "<script>alert('ERRO: Não foi possível concluir a edição!');</script>";
-                    print "<script>location.href='?page=default';</script>";
+                    print "<script>location.href='../Hub/Profile/profile.php';</script>";
                 }
                 break;
-                case 'excluir':
-                    $sql = "DELETE FROM usuarios WHERE id=".$_REQUEST['id'];
-                    $result = $conf->query($sql);
-
-                    if($result==true){
-                        print "<script>alert('Exclusão concluída!');</script>";
-                        print "<script>location.href='?page=listar';</script>";
-                    }else{
-                        print "<script>alert('ERRO: Não foi possível excluir o registro!');</script>";
-                        print "<script>location.href='?page=default';</script>";
-                    }
-                    break;
                 case 'esquecisenha':
-                    $senha = md5($_POST["senha"]);
+                    session_start();
 
-                    $sql = "UPDATE user SET senha='{$senha}' WHERE id =".$_REQUEST['id'];
-                    $result = $conf->query($sql);
-    
+                    $code = $_POST["code"];
+                    $newpass = $_POST["psw"];
+                    
+                    $query = "SELECT verify_cod FROM user WHERE email = '{$_SESSION['email']}' AND verify_cod = '{$code}'";
+                    $result = mysqli_query($conn, $query);
+                    if (!$result) {
+                        echo "Erro na consulta: " . mysqli_error($conn);
+                    exit();
+                    }
                     if($result==true){
+                        //não esta reconhecndo o $newpass
+                        $query = "UPDATE user SET senha='{$newpass}' WHERE verify_cod = '{$code}'";
+                        $result = mysqli_query($conn, $query);
                         print "<script>alert('Edição concluída!');</script>";
-                        print "<script>location.href='?page=listar';</script>";
+                        print "<script>location.href='../Hub/Profile/profile.php';</script>";
                     }else{
                         print "<script>alert('ERRO: Não foi possível concluir a edição!');</script>";
-                        print "<script>location.href='?page=default';</script>";
+                        print "<script>location.href='../Hub/Profile/profile.php';</script>";
                     }
                     break;
     }
-?>

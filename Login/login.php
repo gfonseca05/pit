@@ -6,6 +6,7 @@ if (isset($_POST['login'])) {
   $password = $_POST["psw"];
 
   $email = mysqli_real_escape_string($conn, $email);
+  $user_id = mysqli_real_escape_string($conn, $user_id);
 
   $sql = "SELECT * FROM user WHERE email = '{$email}'";
   $result = mysqli_query($conn, $sql);
@@ -18,6 +19,7 @@ if (isset($_POST['login'])) {
       echo "<script>alert('Login bem-sucedido.');</script>";
       session_start();
       $_SESSION['email'] = $email;
+      $_SESSION['user_id'] = $user_id;
       echo "<script>location.href='../Hub/Profile/profile.php';</script>";
     } else {
       echo "<script>alert('Email ou senha inválidos.');</script>";
