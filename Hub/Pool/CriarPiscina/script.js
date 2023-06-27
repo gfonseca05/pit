@@ -73,10 +73,20 @@ window.addEventListener("DOMContentLoaded", () => {
   animate();
 });
 
-//main
-const profileImage = document.querySelector('.profile-image');
+// Exibir Valores input
+function updateValue(span, value) {
+  document.getElementById(span).innerText = value + 'm';
+}
 
-profileImage.addEventListener('click', function () {
-    const dropdown = document.querySelector('.dropdown-content');
-    dropdown.classList.toggle('hidden');
-});
+function formatDate(input) {
+  let value = input.value;
+  value = value.replace(/\D/g, '');
+
+  if (value.length > 4) {
+    value = value.replace(/^(\d{2})(\d{2})(\d{0,2})(\d{0,2})$/, '$1/$2/$3');
+  } else if (value.length > 2) {
+    value = value.replace(/^(\d{2})(\d{0,2})$/, '$1/$2');
+  }
+  
+  input.value = value;
+}

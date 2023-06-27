@@ -16,6 +16,8 @@ create table piscina (
     largura float not null,
     altura float not null,
     comprimento float not null,
+    proximaLimpeza timestamp(6),
+    ultimaLimpeza timestamp(6),
     fk_user_id int not null,
     foreign key (fk_user_id) references User(user_id)
 );

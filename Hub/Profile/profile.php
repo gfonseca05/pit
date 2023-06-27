@@ -96,7 +96,7 @@ $row = mysqli_fetch_assoc($result);
     </div>
     <div
         class="pools hidden md:visible md:w-4/5 md:h-screen bg-blue-50 md:z-0 md:grid md:grid-cols-3 md:grid-rows-3 md:gap-x-24 md:gap-y-20 md:p-20">
-        <div class="bg-white/[0.4] shadow-2xl shadow-slate-400/50 h-full w-full rounded-xl cursor-pointer"></div>
+        <a href="../Pool\CriarPiscina/pool.php" class="bg-white/[0.4] shadow-2xl shadow-slate-400/50 h-full w-full rounded-xl cursor-pointer p-5">Clique aqui para adicionar uma piscina </a>
         <div class="bg-white/[0.4] shadow-2xl shadow-slate-400/50 h-full w-full rounded-xl cursor-pointer"></div>
         <div class="bg-white/[0.4] shadow-2xl shadow-slate-400/50 h-full w-full rounded-xl cursor-pointer"></div>
         <div

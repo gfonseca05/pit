@@ -1,5 +1,5 @@
 <?php
-require("../database/PHPMailer/mail.php");
+require("PHPMailer/mail.php");
 require("config.php");
 session_start();
 

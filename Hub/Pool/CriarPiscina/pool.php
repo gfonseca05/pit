@@ -23,23 +23,41 @@
     <div class="container mx-auto mt-48">
         <div class="grid grid-cols-2 grid-rows-3 gap-3 place-content-center">
             <div class="scene row-span-2 col-span-2 border border-3 border-black rounded-lg flex justify-center"
-            id="canvas-container"></div>
-            <div class="sliders row-start-3">
-                <div id="sliderContainer" class="mb-4">
-                    <label for="widthSlider">Largura:</label>
-                    <input type="range" id="widthSlider" min="1" max="10" step="1" class="w-full">
+                id="canvas-container"></div>
+            <form method="POST" action="../../../database/poolTable/poolinsert.php" class="sliders row-start-3 col-span-2 mb-10 flex">
+                <div class="sliders w-1/2 p-3">
+                    <div id="sliderContainer" class="w-full h-1/3">
+                        <label for="widthSlider">Largura:</label> <span id="widthValue"></span> </br>
+                        <input type="range" name="width" id="widthSlider" min="1" max="10" step="1" class="w-full" oninput="updateValue('widthValue',this.value)">
+                    </div>
+                    <div id="sliderContainer" class="w-full h-1/3">
+                        <label for="heightSlider">Profundidade:</label> <span id="heightValue"></span> </br>
+                        <input type="range" name="height" id="heightSlider" min="1" max="10" step="1" class="w-full" oninput="updateValue('heightValue',this.value)">
+                    </div>
+                    <div id="sliderContainer" class="w-full h-1/3">
+                        <label for="depthSlider">Comprimento:</label> <span id="depthValue"></span> </br>
+                        <input type="range" name="depth" id="depthSlider" min="1" max="10" step="1" class="w-full" oninput="updateValue('depthValue',this.value)">
+                    </div>
                 </div>
-                <div id="sliderContainer" class="mb-4">
-                    <label for="heightSlider">Profundidade:</label>
-                    <input type="range" id="heightSlider" min="1" max="10" step="1" class="w-full">
+                <div class="texts w-1/2 p-3">
+                    <div class="name w-full h-1/3">
+                        <label for="poolName">Apelido da piscina:</label> </br>
+                        <input type="text" name="poolName" id=""
+                            class="rounded-lg pl-2 ring-2 ring-blue-500 focus:outline-none focus:ring focus:ring-blue-500 w-full">
+                    </div>
+                    <div class="limpeza w-full h-1/3">
+                        <label for="nextClean">Proxima Limpeza:</label> </br>
+                        <input type="text" name="nextClean" id="" placeholder="AA/MM/DD" onkeyup="formatDate(this)"
+                            class="rounded-lg pl-2 ring-2 ring-blue-500 focus:outline-none focus:ring focus:ring-blue-500 w-full">
+                    </div>
+                    <div class="limpeza w-full h-1/3">
+                        <label for="lastClean">Última Limpeza:</label> </br>
+                        <input type="text" name="lastClean" id="" placeholder="AA/MM/DD" onkeyup="formatDate(this)"
+                            class="rounded-lg pl-2 ring-2 ring-blue-500 focus:outline-none focus:ring focus:ring-blue-500 w-full">
+                    </div>
                 </div>
-                <div id="sliderContainer" class="mb-4">
-                    <label for="depthSlider">Comprimento:</label>
-                    <input type="range" id="depthSlider" min="1" max="10" step="1" class="w-full">
-                </div>
-            </div>
-
-            <div class="data col-start-2 row-start-3 text-center">LOCAL PARA INSERIR DADOS, PH etc</div>
+                <input type="submit" value="VAMO TESTAR ESSA BOSTA">
+            </form>
         </div>
     </div>
     <svg class="absolute bottom-0" id="wave" style="transform: rotate(0deg); transition: 0.3s" viewBox="0 0 1440 120"

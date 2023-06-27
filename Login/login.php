@@ -11,6 +11,7 @@ if (isset($_POST['login'])) {
 
   $sql = "SELECT * FROM user WHERE email = '{$email}'";
   $result = mysqli_query($conn, $sql);
+  
 
   if ($result && mysqli_num_rows($result) > 0) {
     $user = mysqli_fetch_assoc($result);
@@ -19,8 +20,13 @@ if (isset($_POST['login'])) {
     if ($password == $hashedPassword) {
       echo "<script>alert('Login bem-sucedido.');</script>";
       session_start();
+      //atribui o valor da coluna email à sessao
       $_SESSION['email'] = $email;
-      $_SESSION['user_id'] = $user_id;
+
+      //atribui o valor da coluna user_id à sessao - nao funciona, mas nao sei o porque
+      /* $row = mysqli_fetch_assoc($result);
+      $_SESSION['user_id'] = $row['user_id']; */
+
       echo "<script>location.href='../Hub/Profile/profile.php';</script>";
     } else {
       echo "<script>alert('Email ou senha inválidos.');</script>";

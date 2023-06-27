@@ -16,7 +16,7 @@ function sendEmail($address, $name, $code)
         $mail->Host = 'smtp-mail.outlook.com'; //Set the SMTP server to send through
         $mail->SMTPAuth = true; //Enable SMTP authentication
         $mail->Username = 'pitPoolCare@gmail.com'; //SMTP username
-        $mail->Password = 'Projetopit'; //SMTP password
+        $mail->Password = 'senhadopit123A'; //SMTP password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; //Enable implicit TLS encryption
         $mail->Port = 587; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
@@ -26,7 +26,7 @@ function sendEmail($address, $name, $code)
 
         //Content
         $mail->isHTML(true); //Set email format to HTML
-        $mail->Subject = 'Codigo para recuperar a senha da conta Pool Care';
+        $mail->Subject = 'Mensagem Equipe Pool Care';
         $mail->Body = 'Informe este código na tela de recuperar senha, não o compartilhe com ninguém:' . $code;
 
         $mail->send();
