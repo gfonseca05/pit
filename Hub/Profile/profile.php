@@ -32,7 +32,18 @@ $row = mysqli_fetch_assoc($result);
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
+<style>
+    .material-symbols-outlined {
+        font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 500
+    }
+</style>
 
 <body class="flex">
     <div
@@ -96,7 +107,14 @@ $row = mysqli_fetch_assoc($result);
     </div>
     <div
         class="pools hidden md:visible md:w-4/5 md:h-screen bg-blue-50 md:z-0 md:grid md:grid-cols-3 md:grid-rows-3 md:gap-x-24 md:gap-y-20 md:p-20">
-        <a href="../Pool\CriarPiscina/pool.php" class="bg-white/[0.4] shadow-2xl shadow-slate-400/50 h-full w-full rounded-xl cursor-pointer p-5">Clique aqui para adicionar uma piscina </a>
+        <a href="../Pool\CriarPiscina/pool.php"
+            class="bg-white/[0.4] shadow-2xl shadow-slate-400/50 h-full w-full rounded-xl cursor-pointer p-5 hover:bg-slate-400/[0.4] transition duration-700 ease-in-out hover:shadow-slate-800/50 text-3xl text-center flex flex-col ">Adicionar
+            <svg xmlns="http://www.w3.org/2000/svg" class="grow p-10"
+                viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <path
+                    d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
+            </svg>
+            <strong class="text-sky-500">Piscina</strong> </a>
         <div class="bg-white/[0.4] shadow-2xl shadow-slate-400/50 h-full w-full rounded-xl cursor-pointer"></div>
         <div class="bg-white/[0.4] shadow-2xl shadow-slate-400/50 h-full w-full rounded-xl cursor-pointer"></div>
         <div
