@@ -6,6 +6,8 @@ if (isset($_POST['login'])) {
   $password = $_POST["psw"];
 
   $email = mysqli_real_escape_string($conn, $email);
+
+  //VERIFICAR SE PODE REMOVER AS DUAS LINHA ABAIXO
   $user_id = mysqli_real_escape_string($conn, $user_id);
   $verify_code = mysqli_real_escape_string($conn, $verify_code);
 
@@ -22,11 +24,6 @@ if (isset($_POST['login'])) {
       session_start();
       //atribui o valor da coluna email à sessao
       $_SESSION['email'] = $email;
-
-      //atribui o valor da coluna user_id à sessao - nao funciona, mas nao sei o porque
-      /* $row = mysqli_fetch_assoc($result);
-      $_SESSION['user_id'] = $row['user_id']; */
-
       echo "<script>location.href='../Hub/Profile/profile.php';</script>";
     } else {
       echo "<script>alert('Email ou senha inválidos.');</script>";
