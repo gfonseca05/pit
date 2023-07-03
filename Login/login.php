@@ -42,7 +42,7 @@ if (isset($_POST['login'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="../dist/output.css" rel="stylesheet">
   <style>
     .google {
       display: flex;
@@ -67,7 +67,7 @@ if (isset($_POST['login'])) {
   </svg>
   <form method="POST" class="container min-w-full min-h-screen grid">
     <div
-    class="login p-4 h-96 w-80 self-center justify-self-center shadow-lg shadow-gray-400/40 rounded-lg grid grid-cols-2 gap-3 grid-rows-4 gap-4">
+    class="login p-4 h-96 w-80 self-center justify-self-center shadow-lg shadow-gray-400/40 rounded-lg grid grid-cols-2 grid-rows-4 gap-3">
     
     <div class="user row-start-1 col-start-1 col-end-3">
       <label for="user">Email</label> <br />
