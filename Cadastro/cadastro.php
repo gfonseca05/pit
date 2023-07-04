@@ -30,7 +30,7 @@
       </path>
     </svg>
 
-    <form action="../database/database.php" method="POST" class="register h-1/2 p-4 max-w-7xl self-center justify-self-center shadow-lg shadow-gray-400/40 rounded-lg grid grid-cols-4 gap-3 grid-rows-5 md:m-0 ml-24 mr-24">
+    <form action="../database/database.php" method="POST" class="register h-1/2 p-4 self-center justify-self-center shadow-lg shadow-gray-400/40 rounded-lg grid grid-cols-4 gap-3 grid-rows-5 md:m-0 md:ml-24 md:mr-24">
       <div class="user row-start-1 md:col-span-2 col-span-4">
         <label for="mail">Email</label> <br />
         <input class="peer border border-sky-500 rounded-full min-w-full h-fit focus:outline-none focus:ring focus:ring-sky-500 p-2" type="email" name="email" required/>
