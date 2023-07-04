@@ -131,7 +131,7 @@ if ($quant['QUANTIDADE'] == 1) {
                 <a href="update.php"
                     class="edit rounded-lg bg-blue-400 transition duration-700 ease-in-out hover:bg-blue-600 w-full row-span-2 flex items-center justify-center md:row-start-5 md:row-span-2 md:col-span-1 md:h-full md:bg-blue-800 md:hover:bg-indigo-600 py-3">Editar
                     Perfil</a>
-                <a href="../../database/password.php"
+                <a href="../password.php"
                     class="changePsw rounded-lg bg-blue-500 transition duration-700 ease-in-out hover:bg-blue-600 w-full row-span-2 flex items-center justify-center md:row-start-5 md:row-span-2 md:col-span-1 md:h-full md:bg-blue-800 md:hover:bg-indigo-700 py-3">
                     Alterar Senha</a>
                 <a href="../../Login/login.php"
