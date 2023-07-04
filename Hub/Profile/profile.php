@@ -64,12 +64,6 @@ if ($quant['QUANTIDADE'] == 1) {
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
-    <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <style>
@@ -150,35 +144,51 @@ if ($quant['QUANTIDADE'] == 1) {
             </div>
         </div>
         <div
-            class="pools flex flex-col p-5 w-screen h-fit md:h-screen bg-blue-50 md:z-0 md:grid md:grid-cols-3 md:grid-rows-3 md:gap-x-24 md:gap-y-20 md:p-20">
+            class="pools flex flex-col p-10 w-screen md:h-screen bg-blue-50 md:z-0 md:grid md:grid-cols-3 md:grid-rows-3 md:gap-x-24 md:gap-y-20 md:p-20">
             <a href="<?php echo $link; ?>" id="btnAddPool" onclick="avisoConta()"
-                class="bg-white/[0.4] mb-4 shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer p-5 hover:bg-slate-400/[0.4] transition duration-700 ease-in-out hover:shadow-slate-800/50 text-3xl text-center flex flex-col flex-1">
+                class="bg-white/[0.4] flex-none h-1/3 md:h-auto mb-4 md:m-0 shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer p-5 hover:bg-slate-400/[0.4] transition duration-700 ease-in-out hover:shadow-slate-800/50 text-3xl text-center flex flex-col">
                 Adicionar
-                <svg xmlns="http://www.w3.org/2000/svg" class="md:grow md:p-10"
+                <svg xmlns="http://www.w3.org/2000/svg" class="p-4"
                     viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
                     <path
                         d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
                 </svg>
                 <strong class="text-sky-500">Piscina</strong> </a>
             <div onclick="teste()"
-                class="bg-white/[0.4] mb-4 h-10 w-full md:h-auto shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer flex-1 p-5">
+                class="relative bg-white/[0.4] flex-none h-1/3 mb-4 md:mb-0 w-full md:h-full shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer p-5">
                 <?php
                 if ($primeiroResultado == "") {
 
                 } else {
-                    echo $primeiroResultado['nome'];
+                    echo "Apelido: " . $primeiroResultado['nome'] . "</br>";
+                    echo "Largura: " . $primeiroResultado['largura'] . "m</br>";
+                    echo "Altura: " . $primeiroResultado['altura'] . "m</br>";
+                    echo "Comprimento: " . $primeiroResultado['comprimento'] . "m</br>";
+                    echo "Próxima Limpeza: " . $primeiroResultado['proximaLimpeza'] . "</br>";
+                    echo "Última Limpeza: " . $primeiroResultado['ultimaLimpeza'] . "</br>";
                 }
                 ?>
+                <form action="../../../database/poolTable/pooldelete.php" method="post" class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500">
+                    <input class="w-full h-full" type="submit" value="">
+                </form>
             </div>
             <div
-                class="bg-white/[0.4] mb-4 h-10 w-full md:h-auto shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer flex-1 p-5">
+                class="relative bg-white/[0.4] flex-none h-1/3 mb-4 md:mb-0 w-full md:h-full shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer p-5">
                 <?php
                 if ($segundoResultado == "") {
 
                 } else {
-                    echo $segundoResultado['nome'];
+                    echo "Apelido: " . $segundoResultado['nome'] . "</br>";
+                    echo "Largura: " . $segundoResultado['largura'] . "m</br>";
+                    echo "Altura: " . $segundoResultado['altura'] . "m</br>";
+                    echo "Comprimento: " . $segundoResultado['comprimento'] . "m</br>";
+                    echo "Próxima Limpeza: " . $segundoResultado['proximaLimpeza'] . "</br>";
+                    echo "Última Limpeza: " . $segundoResultado['ultimaLimpeza'] . "</br>";
                 }
                 ?>
+                <form action="../../../database/poolTable/pooldelete.php" method="post" class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500">
+                    <input class="w-full h-full" type="submit" value="">
+                </form>
             </div>
         </div>
         <script src="script.js"></script>

@@ -6,7 +6,7 @@ var brandname = document.getElementById("brandname");
 var toToggle = document.querySelectorAll(".toggleColour");
 
 document.addEventListener("scroll", function () {
-  /*Apply classes for slide in bar*/
+  /Apply classes for slide in bar/
   scrollpos = window.scrollY;
 
   if (scrollpos > 10) {
@@ -40,8 +40,6 @@ document.addEventListener("scroll", function () {
     navcontent.classList.add("bg-gray-100");
   }
 });
-/*Toggle dropdown list*/
-/*https://gist.github.com/slavapas/593e8e50cf4cc16ac972afcbad4f70c8*/
 
 var navMenuDiv = document.getElementById("nav-content");
 var navMenu = document.getElementById("nav-toggle");
