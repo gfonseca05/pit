@@ -15,7 +15,7 @@
     $ultLimpeza = $_POST["lastClean"];
     $cod_user = $row['user_id'];
         
-    $sql = "INSERT INTO piscina (nome, largura, altura, comprimento, proximaLimpeza, ultimaLimpeza, fk_user_id) VALUES ('{$nome}', '{$largura}', '{$profundidade}', '{$comprimento}', '{$proxLimpeza}', '{$ultLimpeza}', '{$cod_user}')";
+    $sql = "INSERT INTO piscina (nome, largura, altura, comprimento, proximaLimpeza, ultimaLimpeza, fk_user_id) VALUES ('{$nome}', '{$largura}', '{$profundidade}', '{$comprimento}', '{$proxLimpeza}', '{$ultLimpeza}', {$cod_user});";
     $result = $conn->query($sql);
     if($result==true){
         print "<script>alert('Cadastro concluído!');</script>";

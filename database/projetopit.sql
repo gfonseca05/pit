@@ -19,5 +19,5 @@ create table piscina (
     proximaLimpeza date,
     ultimaLimpeza date,
     fk_user_id int not null,
-    foreign key (fk_user_id) references User(user_id)
+    foreign key (fk_user_id) references user(user_id) ON DELETE CASCADE
 );
