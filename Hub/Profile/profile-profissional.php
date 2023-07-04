@@ -5,49 +5,15 @@ session_start();
 $link = "../Pool\CriarPiscina/pool.php";
 
 //Select do usuário
-$query = "SELECT * FROM user WHERE email = '{$_SESSION['email']}'";
+$query = "SELECT * FROM profissional WHERE email = '{$_SESSION['email']}'";
 $result = mysqli_query($conn, $query);
 //Armazenar valores consulta usuário
 $row = mysqli_fetch_assoc($result);
 
-//Select da piscina
-$consulta = "SELECT * FROM piscina WHERE fk_user_id = '{$row['user_id']}'";
-$resultado = mysqli_query($conn, $consulta);
-
-//Consulta de quantos resultados tem na piscina
-$contar = "SELECT COUNT(piscina_id) AS 'QUANTIDADE' FROM piscina WHERE fk_user_id = '{$row['user_id']}'";
-$resultado2 = mysqli_query($conn, $contar);
-//Armazenar numero de resultados
-$quant = mysqli_fetch_assoc($resultado2);
-
-if (!$result || !$resultado || !$resultado2) {
+if (!$result) {
     echo "Erro na consulta: " . mysqli_error($conn);
     exit();
 }
-
-//Condicao para Armzenar os valores da consulta piscina
-if ($quant['QUANTIDADE'] == 1) {
-    $primeiroResultado = mysqli_fetch_assoc($resultado);
-    $segundoResultado = "";
-} else if ($quant['QUANTIDADE'] == 2) {
-    $link = "";
-    $piscinas = array();
-    while ($piscina = mysqli_fetch_assoc($resultado)) {
-        $piscinas[] = $piscina; // cada resultado é adicionado ao array
-    }
-
-    if (isset($piscinas[0])) { //primeira resultado adicionado a uma array
-        $primeiroResultado = $piscinas[0];
-    }
-
-    if (isset($piscinas[1])) { //segundo resultado adicionado ao outra array
-        $segundoResultado = $piscinas[1];
-    }
-} else {
-    $primeiroResultado = "";
-    $segundoResultado = "";
-}
-
 
 ?>
 
@@ -115,20 +81,7 @@ if ($quant['QUANTIDADE'] == 1) {
                         ?>
                     </p>
                 </div>
-                <div class="address flex w-full col-span-2">
-                    <span class="material-symbols-outlined mt-1 text-sky-600 ">
-                        home
-                    </span>
-                    <p class="text-left ml-3" id="address">
-                        <?php
-                        if ($row['endereco'] != '')
-                            echo $row['endereco'];
-                        else
-                            echo 'Você não cadastrou esses dados';
-                        ?>
-                    </p>
-                </div>
-                <a href="update.php"
+                <a href="update-profissional.php"
                     class="edit rounded-lg bg-blue-400 transition duration-700 ease-in-out hover:bg-blue-600 w-full row-span-2 flex items-center justify-center md:row-start-5 md:row-span-2 md:col-span-1 md:h-full md:bg-blue-800 md:hover:bg-indigo-600 py-3">Editar
                     Perfil</a>
                 <a href="../password.php"
@@ -143,54 +96,6 @@ if ($quant['QUANTIDADE'] == 1) {
                     <input type="hidden" name="acao" value="deletar">
                     </form>
                     </a>
-            </div>
-        </div>
-        <div
-            class="pools flex flex-col p-10 w-screen md:h-screen bg-blue-50 md:z-0 md:grid md:grid-cols-3 md:grid-rows-3 md:gap-x-24 md:gap-y-20 md:p-20">
-            <a href="<?php echo $link; ?>" id="btnAddPool" onclick="avisoConta()"
-                class="bg-white/[0.4] flex-none h-1/3 md:h-auto mb-4 md:m-0 shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer p-5 hover:bg-slate-400/[0.4] transition duration-700 ease-in-out hover:shadow-slate-800/50 text-3xl text-center flex flex-col">
-                Adicionar
-                <svg xmlns="http://www.w3.org/2000/svg" class="p-4"
-                    viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
-                    <path
-                        d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
-                </svg>
-                <strong class="text-sky-500">Piscina</strong> </a>
-            <div onclick="teste()"
-                class="relative bg-white/[0.4] flex-none h-1/3 mb-4 md:mb-0 w-full md:h-full shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer p-5">
-                <?php
-                if ($primeiroResultado == "") {
-
-                } else {
-                    echo "Apelido: " . $primeiroResultado['nome'] . "</br>";
-                    echo "Largura: " . $primeiroResultado['largura'] . "m</br>";
-                    echo "Altura: " . $primeiroResultado['altura'] . "m</br>";
-                    echo "Comprimento: " . $primeiroResultado['comprimento'] . "m</br>";
-                    echo "Próxima Limpeza: " . $primeiroResultado['proximaLimpeza'] . "</br>";
-                    echo "Última Limpeza: " . $primeiroResultado['ultimaLimpeza'] . "</br>";
-                }
-                ?>
-                <form action="../../../database/poolTable/pooldelete.php" method="post" class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500">
-                    <input class="w-full h-full" type="submit" value="">
-                </form>
-            </div>
-            <div
-                class="relative bg-white/[0.4] flex-none h-1/3 mb-4 md:mb-0 w-full md:h-full shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer p-5">
-                <?php
-                if ($segundoResultado == "") {
-
-                } else {
-                    echo "Apelido: " . $segundoResultado['nome'] . "</br>";
-                    echo "Largura: " . $segundoResultado['largura'] . "m</br>";
-                    echo "Altura: " . $segundoResultado['altura'] . "m</br>";
-                    echo "Comprimento: " . $segundoResultado['comprimento'] . "m</br>";
-                    echo "Próxima Limpeza: " . $segundoResultado['proximaLimpeza'] . "</br>";
-                    echo "Última Limpeza: " . $segundoResultado['ultimaLimpeza'] . "</br>";
-                }
-                ?>
-                <form action="../../../database/poolTable/pooldelete.php" method="post" class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500">
-                    <input class="w-full h-full" type="submit" value="">
-                </form>
             </div>
         </div>
         <script src="script.js"></script>

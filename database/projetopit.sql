@@ -21,3 +21,12 @@ create table piscina (
     fk_user_id int not null,
     foreign key (fk_user_id) references user(user_id) ON DELETE CASCADE
 );
+
+create table profissional (
+	profissional_id int primary key not null auto_increment,
+    nome varchar(80) not null,
+    email varchar(120) not null,
+    senha varchar(254) not null,
+    telefone varchar(15),
+    verify_cod varchar(5) not null
+);
