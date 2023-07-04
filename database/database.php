@@ -73,4 +73,28 @@
                         print "<script>location.href='../Hub/Profile/profile.php';</script>";
                     }
                     break;
+                case 'deletar':
+                    session_start();
+
+                    $query = "SELECT user_id FROM user WHERE email = '{$_SESSION['email']}'";
+                    $result = mysqli_query($conn, $query);
+                    if (!$result) {
+                        echo "Erro na consulta: " . mysqli_error($conn);
+                        exit();
+                    }
+
+                    $email = $_POST["email"];
+
+                    $sql = "DELETE FROM user WHERE $email";
+                    $result = $conn->query($sql);
+
+                    if($result==true){
+                        $_SESSION['email'] = $email;
+                        print "<script>alert('Exclusão concluída!');</script>";
+                        print "<script>location.href='../Hub/Profile/profile.php';</script>";
+                    }else{
+                        print "<script>alert('ERRO: Não foi possível concluir a edição!');</script>";
+                        print "<script>location.href='../Hub/Profile/profile.php';</script>";
+                    }
+                break;
     }

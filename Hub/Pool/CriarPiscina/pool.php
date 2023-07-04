@@ -37,7 +37,7 @@
                         oninput="updateValue('heightValue',this.value)">
                 </div>
                 <div id="sliderContainer" class="w-full h-1/3">
-                    <label for="depthSlider">Comprimento:</label> <span id="depthValue">6m/span> </br>
+                    <label for="depthSlider">Comprimento:</label> <span id="depthValue">6m</span> </br>
                     <input type="range" name="depth" id="depthSlider" min="1" max="10" step="1" class="w-full"
                         oninput="updateValue('depthValue',this.value)">
                 </div>

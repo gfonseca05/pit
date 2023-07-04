@@ -94,7 +94,7 @@ if ($quant['QUANTIDADE'] == 1) {
                         <?php echo $row['nome'] ?>
                     </p>
                 </div>
-                <div class="mail flex w-full col-span-2">
+                <div class="mail flex w-full col-span-2 truncate">
                     <span class="material-symbols-outlined mt-1 text-sky-600 ">
                         mail
                     </span>
@@ -133,14 +133,16 @@ if ($quant['QUANTIDADE'] == 1) {
                     Perfil</a>
                 <a href="../../database/password.php"
                     class="changePsw rounded-lg bg-blue-500 transition duration-700 ease-in-out hover:bg-blue-600 w-full row-span-2 flex items-center justify-center md:row-start-5 md:row-span-2 md:col-span-1 md:h-full md:bg-blue-800 md:hover:bg-indigo-700 py-3">
-                    Alterar
-                    Senha</a>
+                    Alterar Senha</a>
                 <a href="../../Login/login.php"
                     class="edit rounded-lg bg-red-500 transition duration-700 ease-in-out hover:bg-red-600 w-full row-span-2 flex items-center justify-center md:row-start-7 md:row-span-2 md:col-span-1 md:h-full md:bg-red-800 md:hover:bg-red-600 py-3">
                     Logout</a>
                 <a href=""
                     class="edit rounded-lg bg-red-500 transition duration-700 ease-in-out hover:bg-red-600 w-full row-span-2 flex items-center justify-center md:row-start-7 md:row-span-2 md:col-span-1 md:h-full md:bg-red-700 md:hover:bg-red-500 py-3">
-                    Excluir Conta</a>
+                    <form action="../../database/database.php">Excluir Conta
+                    <input type="hidden" name="acao" value="deletar">
+                    </form>
+                    </a>
             </div>
         </div>
         <div
