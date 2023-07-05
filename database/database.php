@@ -29,7 +29,7 @@ switch ($_REQUEST['acao']) {
 
         if ($result == true) {
             print "<script>alert('Cadastro concluído!');</script>";
-            print "<script>location.href='../Login/login-profissional.php';</script>";
+            print "<script>location.href='../Login/login.php';</script>";
         } else {
             print "<script>alert('ERRO: Não foi possível concluir o cadastro!');</script>";
         }

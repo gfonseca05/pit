@@ -165,6 +165,12 @@ if ($quant['QUANTIDADE'] == 1) {
                     if ($primeiroResultado == "") {
 
                     } else {
+                        if($primeiroResultado['proximaLimpeza'] == '0000-00-00') {
+                            $primeiroResultado['proximaLimpeza'] = "";
+                        }
+                        if($primeiroResultado['ultimaLimpeza'] == '0000-00-00') {
+                            $primeiroResultado['ultimaLimpeza'] = "";
+                        }
                         echo "Apelido: " . $primeiroResultado['nome'] . "</br>";
                         echo "Largura: " . $primeiroResultado['largura'] . "m</br>";
                         echo "Altura: " . $primeiroResultado['altura'] . "m</br>";
@@ -196,6 +202,12 @@ if ($quant['QUANTIDADE'] == 1) {
                     if ($segundoResultado == "") {
 
                     } else {
+                        if($segundoResultado['proximaLimpeza'] == '0000-00-00') {
+                            $segundoResultado['proximaLimpeza'] = "";
+                        }
+                        if($segundoResultado['ultimaLimpeza'] == '0000-00-00') {
+                            $segundoResultado['ultimaLimpeza'] = "";
+                        }
                         echo "Apelido: " . $segundoResultado['nome'] . "</br>";
                         echo "Largura: " . $segundoResultado['largura'] . "m</br>";
                         echo "Altura: " . $segundoResultado['altura'] . "m</br>";
