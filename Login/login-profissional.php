@@ -42,7 +42,8 @@ if (isset($_POST['login'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login Profissional</title>
-  <link href="../dist/output.css" rel="stylesheet">
+  <!-- <link href="../dist/output.css" rel="stylesheet"> -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .google {
       display: flex;

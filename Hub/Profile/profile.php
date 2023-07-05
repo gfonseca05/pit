@@ -20,6 +20,7 @@ $resultado2 = mysqli_query($conn, $contar);
 //Armazenar numero de resultados
 $quant = mysqli_fetch_assoc($resultado2);
 
+$_SESSION['user_id'] = $row['user_id'];
 if (!$result || !$resultado || !$resultado2) {
     echo "Erro na consulta: " . mysqli_error($conn);
     exit();
@@ -59,7 +60,8 @@ if ($quant['QUANTIDADE'] == 1) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="../../dist/output.css" rel="stylesheet">
+    <!-- <link href="../../dist/output.css" rel="stylesheet"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
@@ -137,12 +139,12 @@ if ($quant['QUANTIDADE'] == 1) {
                 <a href="../../index.html"
                     class="edit rounded-lg bg-red-500 transition duration-700 ease-in-out hover:bg-red-600 w-full row-span-2 flex items-center justify-center md:row-start-7 md:row-span-2 md:col-span-1 md:h-full md:bg-red-800 md:hover:bg-red-600 py-3">
                     Logout</a>
-                <a href=""
-                    class="edit rounded-lg bg-red-500 transition duration-700 ease-in-out hover:bg-red-600 w-full row-span-2 flex items-center justify-center md:row-start-7 md:row-span-2 md:col-span-1 md:h-full md:bg-red-700 md:hover:bg-red-500 py-3">
-                    <form action="../../database/database.php">Excluir Conta
-                    <input type="hidden" name="acao" value="deletar">
-                    </form>
-                    </a>
+                <form
+                    class="edit cursor-pointer rounded-lg bg-red-500 transition duration-700 ease-in-out hover:bg-red-600 w-full row-span-2 flex items-center justify-center md:row-start-7 md:row-span-2 md:col-span-1 md:h-full md:bg-red-700 md:hover:bg-red-500 py-3"
+                    action="../../database/database.php">
+                    <input type="submit" name="acao" value="Excluir Perfil">
+                </form>
+
             </div>
         </div>
         <div
@@ -156,41 +158,66 @@ if ($quant['QUANTIDADE'] == 1) {
                         d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
                 </svg>
                 <strong class="text-sky-500">Piscina</strong> </a>
-            <div onclick="teste()"
-                class="relative bg-white/[0.4] flex-none h-1/3 mb-4 md:mb-0 w-full md:h-full shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer p-5">
-                <?php
-                if ($primeiroResultado == "") {
+            <div
+                class="relative bg-white/[0.4] flex-none h-1/3 mb-4 md:mb-0 w-full md:h-full shadow-2xl shadow-slate-400/50 rounded-xl p-5">
+                <div id="pool1" class="content">
+                    <?php
+                    if ($primeiroResultado == "") {
 
-                } else {
-                    echo "Apelido: " . $primeiroResultado['nome'] . "</br>";
-                    echo "Largura: " . $primeiroResultado['largura'] . "m</br>";
-                    echo "Altura: " . $primeiroResultado['altura'] . "m</br>";
-                    echo "Comprimento: " . $primeiroResultado['comprimento'] . "m</br>";
-                    echo "Próxima Limpeza: " . $primeiroResultado['proximaLimpeza'] . "</br>";
-                    echo "Última Limpeza: " . $primeiroResultado['ultimaLimpeza'] . "</br>";
-                }
-                ?>
-                <form action="../../../database/poolTable/pooldelete.php" method="post" class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500">
-                    <input class="w-full h-full" type="submit" value="">
+                    } else {
+                        echo "Apelido: " . $primeiroResultado['nome'] . "</br>";
+                        echo "Largura: " . $primeiroResultado['largura'] . "m</br>";
+                        echo "Altura: " . $primeiroResultado['altura'] . "m</br>";
+                        echo "Comprimento: " . $primeiroResultado['comprimento'] . "m</br>";
+                        echo "Próxima Limpeza: " . $primeiroResultado['proximaLimpeza'] . "</br>";
+                        echo "Última Limpeza: " . $primeiroResultado['ultimaLimpeza'] . "</br>";
+                        $_SESSION['poolNameOne'] = $primeiroResultado['nome'];
+                    }
+                    ?>
+                </div>
+                <form id="btnPool1" action="../../../database/poolTable/pooldelete.php" method="post"
+                    class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500 ">
+                    <input class="w-full h-full cursor-pointer" type="submit" name="delete" value="1">
                 </form>
+                <a href="<?php if ($primeiroResultado == "") {
+                    echo "";
+                } else {
+                    echo '../Pool/CriarPiscina/updatePool.php?value=' . $primeiroResultado['nome'];
+                } ?>" id="editBtn1" class="absolute bottom-0 right-0 h-fit w-fit z-100 hover:text-slate-700"><span
+                        class="material-symbols-outlined">
+                        edit
+                    </span></a>
+
             </div>
             <div
-                class="relative bg-white/[0.4] flex-none h-1/3 mb-4 md:mb-0 w-full md:h-full shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer p-5">
-                <?php
-                if ($segundoResultado == "") {
+                class="relative bg-white/[0.4] flex-none h-1/3 mb-4 md:mb-0 w-full md:h-full shadow-2xl shadow-slate-400/50 rounded-xl p-5">
+                <div id="pool2" class="content">
+                    <?php
+                    if ($segundoResultado == "") {
 
-                } else {
-                    echo "Apelido: " . $segundoResultado['nome'] . "</br>";
-                    echo "Largura: " . $segundoResultado['largura'] . "m</br>";
-                    echo "Altura: " . $segundoResultado['altura'] . "m</br>";
-                    echo "Comprimento: " . $segundoResultado['comprimento'] . "m</br>";
-                    echo "Próxima Limpeza: " . $segundoResultado['proximaLimpeza'] . "</br>";
-                    echo "Última Limpeza: " . $segundoResultado['ultimaLimpeza'] . "</br>";
-                }
-                ?>
-                <form action="../../../database/poolTable/pooldelete.php" method="post" class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500">
-                    <input class="w-full h-full" type="submit" value="">
+                    } else {
+                        echo "Apelido: " . $segundoResultado['nome'] . "</br>";
+                        echo "Largura: " . $segundoResultado['largura'] . "m</br>";
+                        echo "Altura: " . $segundoResultado['altura'] . "m</br>";
+                        echo "Comprimento: " . $segundoResultado['comprimento'] . "m</br>";
+                        echo "Próxima Limpeza: " . $segundoResultado['proximaLimpeza'] . "</br>";
+                        echo "Última Limpeza: " . $segundoResultado['ultimaLimpeza'] . "</br>";
+                        $_SESSION['poolNameTwo'] = $segundoResultado['nome'];
+                    }
+                    ?>
+                </div>
+                <form id="btnPool2" action="../../../database/poolTable/pooldelete.php" method="post"
+                    class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500 ">
+                    <input class="w-full h-full cursor-pointer" type="submit" name="delete" value="2">
                 </form>
+                <a href="<?php if ($segundoResultado == "") {
+                    echo "";
+                } else {
+                    echo "../Pool/CriarPiscina/updatePool.php?value=" . $segundoResultado['nome'];
+                } ?>" id="editBtn2" class=" absolute bottom-0 right-0 hfit5 wfit5 z-10 hover:text-slate-700"><span
+                        class="material-symbols-outlined">
+                        edit
+                    </span></a>
             </div>
         </div>
         <script src="script.js"></script>

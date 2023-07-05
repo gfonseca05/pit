@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Document</title>
-    <link href="../../../dist/output.css" rel="stylesheet">
+    <!-- <link href="../../../dist/output.css" rel="stylesheet"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="h-full">
@@ -50,12 +51,12 @@
                 </div>
                 <div class="limpeza w-full h-1/3">
                     <label for="nextClean">Proxima Limpeza:</label> </br>
-                    <input type="text" name="nextClean" id="" placeholder="AA/MM/DD" onkeyup="formatDate(this)"
+                    <input type="text" name="nextClean" id="" placeholder="AAAA/MM/DD" onkeyup="formatDate(this)"
                         class="rounded-lg pl-2 ring-2 ring-blue-500 focus:outline-none focus:ring focus:ring-blue-500 w-full">
                 </div>
                 <div class="limpeza w-full h-1/3">
                     <label for="lastClean">Última Limpeza:</label> </br>
-                    <input type="text" name="lastClean" id="" placeholder="AA/MM/DD" onkeyup="formatDate(this)"
+                    <input type="text" name="lastClean" id="" placeholder="AAAA/MM/DD" onkeyup="formatDate(this)"
                         class="rounded-lg pl-2 ring-2 ring-blue-500 focus:outline-none focus:ring focus:ring-blue-500 w-full">
                 </div>
             </div>

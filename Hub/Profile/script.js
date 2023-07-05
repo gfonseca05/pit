@@ -12,10 +12,27 @@ function consultaLink() {
         
     }
 }
+
+function deletePool(divPai, button) {
+    if (divPai.innerText.trim() === "") {
+        button.classList.add('invisible');
+        button.classList.remove('visible');
+    } else {
+        button.classList.add('visible');
+        button.classList.remove('invisible');
+    }
+}
+
+
 window.addEventListener('load', consultaLink())
+window.addEventListener('load', deletePool(document.getElementById("pool1"), document.getElementById("btnPool1")))
+window.addEventListener('load', deletePool(document.getElementById("pool2"), document.getElementById("btnPool2")))
+window.addEventListener('load', deletePool(document.getElementById("pool1"), document.getElementById("editBtn1")))
+window.addEventListener('load', deletePool(document.getElementById("pool2"), document.getElementById("editBtn2")))
 
 function avisoConta() {
     if (hrefPool == "") {
         window.confirm("Não é possível adicionar novas piscinas \nPara adicionar uma nova piscina, adquira uma conta premium ou apague uma já existente!")
     }
 }
+

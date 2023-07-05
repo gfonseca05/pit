@@ -18,7 +18,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
   renderer.setClearColor(0xffffff);
-  var canvasContainer = document.getElementById("canvas-container")
+  var canvasContainer = document.getElementById("canvas-container");
   canvasContainer.appendChild(renderer.domElement);
 
   // Create the initial rectangle geometry
@@ -75,7 +75,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // Exibir Valores input
 function updateValue(span, value) {
-  document.getElementById(span).innerText = value + 'm';
+  document.getElementById(span).innerText = value + "m";
 }
 
 function formatDate(input) {
@@ -83,9 +83,9 @@ function formatDate(input) {
   value = value.replace(/\D/g, '');
 
   if (value.length > 4) {
-    value = value.replace(/^(\d{2})(\d{2})(\d{0,2})(\d{0,2})$/, '$1/$2/$3');
+    value = value.replace(/^(\d{4})(\d{2})(\d{0,2})(\d{0,2})$/, '$1-$2-$3');
   } else if (value.length > 2) {
-    value = value.replace(/^(\d{2})(\d{0,2})$/, '$1/$2');
+    value = value.replace(/^(\d{4})(\d{0,2})$/, '$1-$2');
   }
   
   input.value = value;
