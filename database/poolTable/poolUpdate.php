@@ -13,7 +13,7 @@ $pool = $_POST['variavel'];
 $sql = "UPDATE piscina SET proximaLimpeza = '{$nextClean}', ultimaLimpeza = '{$lastClean}' WHERE fk_user_id = {$user} AND nome = '{$pool}'";
 $result = $conn->query($sql);
 if ($result == true) {
-    print "<script>alert('Proxima: " . $pool . "');</script>";
+    print "<script>alert('Data Alterada!');</script>";
     print "<script>location.href='../../Hub/Profile/profile.php';</script>";
 } else {
     print "<script>alert('ERRO: Não foi possível alterar a piscina!');</script>";
