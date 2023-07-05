@@ -65,7 +65,7 @@ sendEmail($row['email'], $row['nome'], $row['verify_cod']);
             type="password" name="psw"  required />
           <i class="absolute top-0 right-0 h-full w-5 flex items-center justify-center mr-4 cursor-pointer"
             onclick="viewPSW(document.getElementById('senha'), document.getElementById('eye'))">
-            <img id="eye" src="../assets/eye-closed-svgrepo-com.svg"></img>
+            <img id="eye" src="../../assets/eye-closed-svgrepo-com.svg"></img>
           </i>
         </div>
       </div>
@@ -77,7 +77,7 @@ sendEmail($row['email'], $row['nome'], $row['verify_cod']);
             type="password" name="Rpsw" oninput="password()" required />
           <i class="absolute top-0 right-0 h-full w-5 flex items-center justify-center mr-4 cursor-pointer"
             onclick="viewPSW(document.getElementById('repetSenha'), document.getElementById('Reye'))">
-            <img id="Reye" src="../assets/eye-closed-svgrepo-com.svg"></img>
+            <img id="Reye" src="../../assets/eye-closed-svgrepo-com.svg"></img>
           </i>
         </div>
       </div>
