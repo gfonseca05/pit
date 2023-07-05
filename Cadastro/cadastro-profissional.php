@@ -6,7 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cadastro de Profissional</title>
-  <link href="../dist/output.css" rel="stylesheet">
+  <!-- <link href="../dist/output.css" rel="stylesheet"> -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .google {
       display: flex;
@@ -30,7 +31,7 @@
       </path>
     </svg>
 
-    <form action="../database/database.php" method="POST" class="register h-1/2 p-4 self-center justify-self-center shadow-lg shadow-gray-400/40 rounded-lg grid grid-cols-4 gap-3 grid-rows-5 md:m-0 md:ml-24 md:mr-24">
+    <form action="../database/database.php" method="POST" class="register h-2/3  p-4 self-center justify-self-center shadow-lg shadow-gray-400/40 rounded-lg grid grid-cols-4 gap-3 grid-rows-6 md:m-0 md:ml-24 md:mr-24">
       <div class="user row-start-1 md:col-span-2 col-span-4">
         <label for="mail">Email</label> <br />
         <input class="peer border border-sky-500 rounded-full min-w-full h-fit focus:outline-none focus:ring focus:ring-sky-500 p-2" type="email" name="email" required/>
@@ -42,7 +43,7 @@
         <label for="user">Usuário</label> <br />
         <input class="border border-sky-500 rounded-full min-w-full h-fit focus:outline-none focus:ring focus:ring-sky-500 p-2" type="text" name="user" required/>
       </div>
-      <div class="tel row-start-2 md:col-span-2 col-span-4">
+      <div class="tel row-start-5 md:col-span-2 col-span-4">
         <label for="tel">Telefone</label> <br />
         <input class="border border-sky-500 rounded-full min-w-full h-fit focus:outline-none focus:ring focus:ring-sky-500 p-2" type="text" name="tel" required/>
       </div>
@@ -55,7 +56,7 @@
           </i>
         </div>
       </div>
-      <div class="psw row-start-4 md:col-span-2 col-span-4">
+      <div class="Rpsw row-start-4 md:col-span-2 col-span-4">
         <label for="Rpsw">Repetir Senha</label> <br />
         <div class="relative">
           <input id="repetSenha" class="border border-sky-500 rounded-full h-fit min-w-full focus:outline-none focus:ring focus:ring-sky-500 p-2" type="password" name="Rpsw" oninput="password()" required />
@@ -64,7 +65,7 @@
           </i>
         </div>
       </div>
-      <button class="text-base regis row-start-5 md:col-span-1 col-span-2 rounded-lg bg-sky-500 transition duration-400 ease-in-out hover:bg-sky-400" id="btnRegister">
+      <button class="text-base regis row-start-6 md:col-span-1 col-span-2 rounded-lg bg-sky-500 transition duration-400 ease-in-out hover:bg-sky-400" id="btnRegister">
         Cadastrar
       </button>
 
@@ -72,7 +73,7 @@
         <a href="../Login/login.php" class="underline underline-offset-1">Já possuo uma conta</a>
       </div>
 
-      <button class="text-base google row-start-5 md:col-span-1 col-span-2 rounded-lg bg-zinc-100 transition duration-400 ease-in-out hover:bg-zinc-50">
+      <button class="text-base google row-start-6 md:col-span-1 col-span-2 rounded-lg bg-zinc-100 transition duration-400 ease-in-out hover:bg-zinc-50">
         <img src="../assets/google-logo.png" class="md:w-[10%] md:mr-4 w-[20%] ml-3" alt="" />Entrar com Google
       </button>
 

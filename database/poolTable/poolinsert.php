@@ -1,6 +1,5 @@
 <?php
     include_once("../config.php");
-    include_once("../databaase.php");
     session_start();
 
     $query = "SELECT * FROM user WHERE email = '{$_SESSION['email']}'";
@@ -11,9 +10,21 @@
     $largura = $_POST["width"];
     $profundidade = $_POST["height"];
     $comprimento = $_POST["depth"];
-    $proxLimpeza = $_POST["nextClean"];
-    $ultLimpeza = $_POST["lastClean"];
+    /* $proxLimpeza = $_POST["nextClean"];
+    $ultLimpeza = $_POST["lastClean"]; */
     $cod_user = $row['user_id'];
+    if($_POST["nextClean"] == "") {
+        $proxLimpeza = '0000/00/00';
+    }
+    else {
+        $proxLimpeza = $_POST["nextClean"];
+    }
+    if($_POST["lastClean"] == "") {
+        $ultLimpeza = '0000/00/00';
+    }
+    else {
+        $ultLimpeza = $_POST["lastClean"];
+    }
         
     $sql = "INSERT INTO piscina (nome, largura, altura, comprimento, proximaLimpeza, ultimaLimpeza, fk_user_id) VALUES ('{$nome}', '{$largura}', '{$profundidade}', '{$comprimento}', '{$proxLimpeza}', '{$ultLimpeza}', {$cod_user});";
     $result = $conn->query($sql);
