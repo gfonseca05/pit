@@ -96,11 +96,11 @@ if ($quant['QUANTIDADE'] == 1) {
                         <?php echo $row['nome'] ?>
                     </p>
                 </div>
-                <div class="mail flex w-full col-span-2 truncate">
+                <div class="mail flex w-full col-span-2" onmouseover="removeTruncate()" onmouseleave="addTruncate()">
                     <span class="material-symbols-outlined mt-1 text-sky-600 ">
                         mail
                     </span>
-                    <p class="text-left ml-3" id="email">
+                    <p class="text-left ml-3 truncate hover:bg-slate-700 rounded-md pr-2 cursor-default" id="email">
                         <?php echo $row['email'] ?>
                     </p>
                 </div>

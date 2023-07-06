@@ -23,6 +23,15 @@ function deletePool(divPai, button) {
     }
 }
 
+//remove e adiciona a classe truncate no nav bar
+// truncate: não deixa o texto vazar da div pai
+function addTruncate() {
+    document.getElementById("email").classList.add("truncate");
+}
+
+function removeTruncate() {
+    document.getElementById("email").classList.remove("truncate");
+}
 
 window.addEventListener('load', consultaLink())
 window.addEventListener('load', deletePool(document.getElementById("pool1"), document.getElementById("btnPool1")))
