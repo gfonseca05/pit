@@ -30,7 +30,25 @@ if (!$result || !$resultado || !$resultado2) {
 if ($quant['QUANTIDADE'] == 1) {
     $primeiroResultado = mysqli_fetch_assoc($resultado);
     $segundoResultado = "";
-} else if ($quant['QUANTIDADE'] == 2) {
+    $terceiroResultado = "";
+} elseif ($quant['QUANTIDADE'] == 2) {
+    $piscinas = array();
+    $terceiroResultado = "";
+    while ($piscina = mysqli_fetch_assoc($resultado)) {
+        $piscinas[] = $piscina; // cada resultado é adicionado ao array
+    }
+
+    if (isset($piscinas[0])) { //primeira resultado adicionado a uma array
+        $primeiroResultado = $piscinas[0];
+    }
+
+    if (isset($piscinas[1])) { //segundo resultado adicionado ao outra array
+        $segundoResultado = $piscinas[1];
+    }
+    if (isset($piscinas[2])) { //segundo resultado adicionado ao outra array
+        $terceiroResultado = $piscinas[2];
+    }
+} elseif ($quant['QUANTIDADE'] == 3) {
     $link = "";
     $piscinas = array();
     while ($piscina = mysqli_fetch_assoc($resultado)) {
@@ -44,9 +62,13 @@ if ($quant['QUANTIDADE'] == 1) {
     if (isset($piscinas[1])) { //segundo resultado adicionado ao outra array
         $segundoResultado = $piscinas[1];
     }
+    if (isset($piscinas[2])) { //segundo resultado adicionado ao outra array
+        $terceiroResultado = $piscinas[2];
+    }
 } else {
     $primeiroResultado = "";
     $segundoResultado = "";
+    $terceiroResultado = "";
 }
 
 
@@ -148,22 +170,21 @@ if ($quant['QUANTIDADE'] == 1) {
             </div>
         </div>
         <div
-            class="pools flex flex-col p-10 w-screen md:h-screen bg-blue-50 md:z-0 md:grid md:grid-cols-3 md:grid-rows-3 md:gap-x-24 md:gap-y-20 md:p-20">
+            class="pools flex p-10 w-screen h-full md:h-screen bg-blue-50 md:z-0 md:p-20 flex-row flex-wrap">
             <a href="<?php echo $link; ?>" id="btnAddPool" onclick="avisoConta()"
-                class="bg-white/[0.4] flex-none h-1/3 md:h-auto mb-4 md:m-0 shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer p-5 hover:bg-slate-400/[0.4] transition duration-700 ease-in-out hover:shadow-slate-800/50 text-3xl text-center flex flex-col">
+                class="bg-white/[0.4] h-1/4 md:flex-1 w-full mb-4 md:m-4 shadow-2xl shadow-slate-400/50 rounded-xl cursor-pointer p-5 hover:bg-slate-400/[0.4] transition duration-700 ease-in-out hover:shadow-slate-800/50 text-3xl text-center flex flex-col md:h-1/5 md:w-auto flex-0">
                 Adicionar
-                <svg xmlns="http://www.w3.org/2000/svg" class="p-4"
-                    viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="md:p-4 md:w-auto w-1/4 self-center"
+                    viewBox="0 0 448 512">
                     <path
                         d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z" />
                 </svg>
                 <strong class="text-sky-500">Piscina</strong> </a>
             <div
-                class="relative bg-white/[0.4] flex-none h-1/3 mb-4 md:mb-0 w-full md:h-full shadow-2xl shadow-slate-400/50 rounded-xl p-5">
+                class="relative bg-white/[0.4] h-1/4 md:flex-1 w-full mb-4 md:m-4 shadow-2xl shadow-slate-400/50 rounded-xl p-5 md:h-1/5 md:w-auto flex-0" id="poolCard1">
                 <div id="pool1" class="content">
                     <?php
                     if ($primeiroResultado == "") {
-
                     } else {
                         if($primeiroResultado['proximaLimpeza'] == '0000-00-00') {
                             $primeiroResultado['proximaLimpeza'] = "";
@@ -196,11 +217,10 @@ if ($quant['QUANTIDADE'] == 1) {
 
             </div>
             <div
-                class="relative bg-white/[0.4] flex-none h-1/3 mb-4 md:mb-0 w-full md:h-full shadow-2xl shadow-slate-400/50 rounded-xl p-5">
+                class="relative bg-white/[0.4] h-1/4 md:flex-1 w-full mb-4 md:m-4 shadow-2xl shadow-slate-400/50 rounded-xl p-5 md:h-1/5 md:w-auto flex-0" id="poolCard2">
                 <div id="pool2" class="content">
                     <?php
                     if ($segundoResultado == "") {
-
                     } else {
                         if($segundoResultado['proximaLimpeza'] == '0000-00-00') {
                             $segundoResultado['proximaLimpeza'] = "";
@@ -227,6 +247,41 @@ if ($quant['QUANTIDADE'] == 1) {
                 } else {
                     echo "../Pool/CriarPiscina/updatePool.php?value=" . $segundoResultado['nome'];
                 } ?>" id="editBtn2" class=" absolute bottom-0 right-0 hfit5 wfit5 z-10 hover:text-slate-700"><span
+                        class="material-symbols-outlined">
+                        edit
+                    </span></a>
+            </div>
+            <div
+                class="relative bg-white/[0.4] h-1/4 md:flex-1 w-full mb-4 md:m-4 shadow-2xl shadow-slate-400/50 rounded-xl p-5 md:h-1/5 md:w-auto flex-0" id="poolCard3">
+                <div id="pool3" class="content">
+                    <?php
+                    if ($terceiroResultado == "") {
+                    } else {
+                        if($terceiroResultado['proximaLimpeza'] == '0000-00-00') {
+                            $terceiroResultado['proximaLimpeza'] = "";
+                        }
+                        if($terceiroResultado['ultimaLimpeza'] == '0000-00-00') {
+                            $terceiroResultado['ultimaLimpeza'] = "";
+                        }
+                        echo "Apelido: " . $terceiroResultado['nome'] . "</br>";
+                        echo "Largura: " . $terceiroResultado['largura'] . "m</br>";
+                        echo "Altura: " . $terceiroResultado['altura'] . "m</br>";
+                        echo "Comprimento: " . $terceiroResultado['comprimento'] . "m</br>";
+                        echo "Próxima Limpeza: " . $terceiroResultado['proximaLimpeza'] . "</br>";
+                        echo "Última Limpeza: " . $terceiroResultado['ultimaLimpeza'] . "</br>";
+                        $_SESSION['poolNameThree'] = $terceiroResultado['nome'];
+                    }
+                    ?>
+                </div>
+                <form id="btnPool3" action="../../../database/poolTable/pooldelete.php" method="post"
+                    class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500 ">
+                    <input class="w-full h-full cursor-pointer" type="submit" name="delete" value="3">
+                </form>
+                <a href="<?php if ($terceiroResultado == "") {
+                    echo "";
+                } else {
+                    echo "../Pool/CriarPiscina/updatePool.php?value=" . $terceiroResultado['nome'];
+                } ?>" id="editBtn3" class=" absolute bottom-0 right-0 hfit5 wfit5 z-10 hover:text-slate-700"><span
                         class="material-symbols-outlined">
                         edit
                     </span></a>

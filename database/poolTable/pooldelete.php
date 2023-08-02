@@ -13,6 +13,8 @@ switch($_REQUEST['delete']) {
     case '2':
         $poolName = $_SESSION['poolNameTwo'];
         break;
+    case '3':
+        $poolName = $_SESSION['poolNameThree'];
 }
 $sql = "DELETE FROM piscina WHERE fk_user_id = '{$row['user_id']}' AND nome = '{$poolName}' ";
 $result = $conn->query($sql);

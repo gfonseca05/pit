@@ -13,13 +13,11 @@ function consultaLink() {
     }
 }
 
-function deletePool(divPai, button) {
+function deletePool(divPai, paizao) {
     if (divPai.innerText.trim() === "") {
-        button.classList.add('invisible');
-        button.classList.remove('visible');
+        paizao.classList.add('hidden');
     } else {
-        button.classList.add('visible');
-        button.classList.remove('invisible');
+        paizao.classList.remove('hidden');
     }
 }
 
@@ -34,14 +32,15 @@ function removeTruncate() {
 }
 
 window.addEventListener('load', consultaLink())
-window.addEventListener('load', deletePool(document.getElementById("pool1"), document.getElementById("btnPool1")))
-window.addEventListener('load', deletePool(document.getElementById("pool2"), document.getElementById("btnPool2")))
-window.addEventListener('load', deletePool(document.getElementById("pool1"), document.getElementById("editBtn1")))
-window.addEventListener('load', deletePool(document.getElementById("pool2"), document.getElementById("editBtn2")))
+
+window.addEventListener('load', deletePool(document.getElementById("pool1"), document.getElementById("poolCard1")))
+window.addEventListener('load', deletePool(document.getElementById("pool2"), document.getElementById("poolCard2")))
+window.addEventListener('load', deletePool(document.getElementById("pool3"), document.getElementById("poolCard3")))
 
 function avisoConta() {
     if (hrefPool == "") {
         window.confirm("Não é possível adicionar novas piscinas \nPara adicionar uma nova piscina, adquira uma conta premium ou apague uma já existente!")
     }
 }
+
 
