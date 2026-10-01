@@ -1,26 +1,29 @@
 <?php
 include_once("../config.php");
-session_start();
-$query = "SELECT * FROM user WHERE email = '{$_SESSION['email']}'";
-$result = mysqli_query($conn, $query);
-$row = mysqli_fetch_assoc($result);
+exigirLogin('user', '../../Login/login.php');
 
-$poolName;
-switch($_REQUEST['delete']) {
+$row = buscarConta($conn, 'user', $_SESSION['email']);
+
+$poolName = null;
+switch($_REQUEST['delete'] ?? '') {
     case '1':
-        $poolName = $_SESSION['poolNameOne'];
+        $poolName = $_SESSION['poolNameOne'] ?? null;
         break;
     case '2':
-        $poolName = $_SESSION['poolNameTwo'];
+        $poolName = $_SESSION['poolNameTwo'] ?? null;
         break;
     case '3':
-        $poolName = $_SESSION['poolNameThree'];
+        $poolName = $_SESSION['poolNameThree'] ?? null;
 }
-$sql = "DELETE FROM piscina WHERE fk_user_id = '{$row['user_id']}' AND nome = '{$poolName}' ";
-$result = $conn->query($sql);
+if ($poolName === null) {
+    alertaERedireciona('ERRO: Piscina não encontrada!', '../../Hub/Profile/profile.php');
+}
+
+$stmt = $conn->prepare("DELETE FROM piscina WHERE fk_user_id = ? AND nome = ?");
+$stmt->bind_param("is", $row['user_id'], $poolName);
+$result = $stmt->execute();
 if($result==true){
-    print "<script>alert('Piscina Deletada!');</script>";
-    print "<script>location.href='../../Hub/Profile/profile.php';</script>";
+    alertaERedireciona('Piscina Deletada!', '../../Hub/Profile/profile.php');
 }else{
     print "<script>alert('ERRO: Não foi possível deletar a piscina!');</script>";
 }

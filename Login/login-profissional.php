@@ -1,34 +1,17 @@
 <?php
 include("../database/config.php");
-$email = "";
 if (isset($_POST['login'])) {
-  $email = $_POST["email"];
-  $password = $_POST["psw"];
+  $email = trim($_POST["email"] ?? "");
+  $password = $_POST["psw"] ?? "";
 
-  $email = mysqli_real_escape_string($conn, $email);
+  //Procura o email nas contas de profissional
+  $destino = fazerLogin($conn, $email, $password, ['profissional']);
 
-  //VERIFICAR SE PODE REMOVER AS DUAS LINHA ABAIXO
-  $user_id = mysqli_real_escape_string($conn, $user_id);
-  $verify_code = mysqli_real_escape_string($conn, $verify_code);
-
-  $sql = "SELECT * FROM profissional WHERE email = '{$email}'";
-  $result = mysqli_query($conn, $sql);
-  
-
-  if ($result && mysqli_num_rows($result) > 0) {
-    $user = mysqli_fetch_assoc($result);
-    $hashedPassword = $user['senha'];
-
-    if ($password == $hashedPassword) {
-      echo "<script>alert('Login bem-sucedido.');</script>";
-      session_start();
-      //atribui o valor da coluna email à sessao
-      $_SESSION['email'] = $email;
-      echo "<script>location.href='../Hub/Profile/profile-profissional.php';</script>";
-    } else {
-      echo "<script>alert('Email ou senha inválidos.');</script>";
-    }
+  if ($destino !== null) {
+    echo "<script>alert('Login bem-sucedido.');</script>";
+    echo "<script>location.href='{$destino}';</script>";
   } else {
+    //Mensagem genérica para não revelar quais emails estão cadastrados
     echo "<script>alert('Email ou senha inválidos.');</script>";
   }
 }

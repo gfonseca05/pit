@@ -1,163 +1,169 @@
 <?php
 include("./config.php");
-switch ($_REQUEST['acao']) {
-    case 'cadastrar':
-        $email = $_POST["email"];
-        $user = $_POST["user"];
-        $password = ($_POST["psw"]);
-        $code = mt_rand(10000, 99999);
+iniciarSessao();
 
-        $sql = "INSERT INTO user (nome, email, senha, verify_cod) VALUES ('{$user}', '{$email}', '{$password}', '{$code}')";
-        $result = $conn->query($sql);
+switch ($_REQUEST['acao'] ?? '') {
+    case 'cadastrar':
+        $email = trim($_POST["email"] ?? "");
+        $user = trim($_POST["user"] ?? "");
+        $password = $_POST["psw"] ?? "";
+
+        if ($email === "" || $user === "" || $password === "") {
+            alertaERedireciona('ERRO: Preencha todos os campos!', '../Cadastro/cadastro.php');
+        }
+        if (emailEmUso($conn, $email)) {
+            alertaERedireciona('ERRO: Este email já está cadastrado!', '../Cadastro/cadastro.php');
+        }
+
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $code = gerarCodigo();
+
+        $stmt = $conn->prepare("INSERT INTO user (nome, email, senha, verify_cod) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $user, $email, $hash, $code);
+        $result = $stmt->execute();
 
         if ($result == true) {
-            print "<script>alert('Cadastro concluído!');</script>";
-            print "<script>location.href='../Login/login.php';</script>";
+            alertaERedireciona('Cadastro concluído!', '../Login/login.php');
         } else {
             print "<script>alert('ERRO: Não foi possível concluir o cadastro!');</script>";
         }
         break;
     case 'cadastrar-pro':
-        $email = $_POST["email"];
-        $user = $_POST["user"];
-        $password = ($_POST["psw"]);
-        $code = mt_rand(10000, 99999);
-        $tel = ($_POST["tel"]);
+        $email = trim($_POST["email"] ?? "");
+        $user = trim($_POST["user"] ?? "");
+        $password = $_POST["psw"] ?? "";
+        $tel = trim($_POST["tel"] ?? "");
 
-        $sql = "INSERT INTO profissional (nome, email, senha, telefone, verify_cod) VALUES ('{$user}', '{$email}', '{$password}', '{$tel}', '{$code}')";
-        $result = $conn->query($sql);
+        if ($email === "" || $user === "" || $password === "") {
+            alertaERedireciona('ERRO: Preencha todos os campos!', '../Cadastro/cadastro-profissional.php');
+        }
+        if (emailEmUso($conn, $email)) {
+            alertaERedireciona('ERRO: Este email já está cadastrado!', '../Cadastro/cadastro-profissional.php');
+        }
+
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $code = gerarCodigo();
+
+        $stmt = $conn->prepare("INSERT INTO profissional (nome, email, senha, telefone, verify_cod) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $user, $email, $hash, $tel, $code);
+        $result = $stmt->execute();
 
         if ($result == true) {
-            print "<script>alert('Cadastro concluído!');</script>";
-            print "<script>location.href='../Login/login.php';</script>";
+            alertaERedireciona('Cadastro concluído!', '../Login/login.php');
         } else {
             print "<script>alert('ERRO: Não foi possível concluir o cadastro!');</script>";
         }
         break;
     case 'editar':
-        session_start();
+        exigirLogin('user', '../Login/login.php');
+        $row = buscarConta($conn, 'user', $_SESSION['email']);
 
-        $query = "SELECT user_id FROM user WHERE email = '{$_SESSION['email']}'";
-        $result = mysqli_query($conn, $query);
-        if (!$result) {
-            echo "Erro na consulta: " . mysqli_error($conn);
-            exit();
+        $nome = trim($_POST["name"] ?? "");
+        $email = trim($_POST["email"] ?? "");
+        $telefone = trim($_POST["phone"] ?? "");
+        $endereco = trim($_POST["address"] ?? "");
+
+        //Impede trocar para um email que já pertence a outra conta
+        if ($email !== $row['email'] && emailEmUso($conn, $email)) {
+            alertaERedireciona('ERRO: Este email já está cadastrado!', '../Hub/Profile/profile.php');
         }
-        $row = mysqli_fetch_assoc($result);
 
-        $nome = $_POST["name"];
-        $email = $_POST["email"];
-        $telefone = $_POST["phone"];
-        $endereco = $_POST["address"];
-
-        $sql = "UPDATE user SET nome='{$nome}',
-                                            email='{$email}',
-                                            telefone='{$telefone}',
-                                            endereco='{$endereco}'
-                                        WHERE
-                                            user_id = '{$row['user_id']}'";
-        $result = $conn->query($sql);
+        $stmt = $conn->prepare("UPDATE user SET nome = ?, email = ?, telefone = ?, endereco = ? WHERE user_id = ?");
+        $stmt->bind_param("ssssi", $nome, $email, $telefone, $endereco, $row['user_id']);
+        $result = $stmt->execute();
 
         if ($result == true) {
             $_SESSION['email'] = $email;
-            print "<script>alert('Edição concluída!');</script>";
-            print "<script>location.href='../Hub/Profile/profile.php';</script>";
+            alertaERedireciona('Edição concluída!', '../Hub/Profile/profile.php');
         } else {
-            print "<script>alert('ERRO: Não foi possível concluir a edição!');</script>";
-            print "<script>location.href='../Hub/Profile/profile.php';</script>";
+            alertaERedireciona('ERRO: Não foi possível concluir a edição!', '../Hub/Profile/profile.php');
         }
         break;
     case 'editar-pro':
-        session_start();
+        exigirLogin('profissional', '../Login/login.php');
+        $row = buscarConta($conn, 'profissional', $_SESSION['email']);
 
-        $query = "SELECT profissional_id FROM profissional WHERE email = '{$_SESSION['email']}'";
-        $result = mysqli_query($conn, $query);
-        if (!$result) {
-            echo "Erro na consulta: " . mysqli_error($conn);
-            exit();
+        $nome = trim($_POST["name"] ?? "");
+        $email = trim($_POST["email"] ?? "");
+        $telefone = trim($_POST["phone"] ?? "");
+
+        if ($email !== $row['email'] && emailEmUso($conn, $email)) {
+            alertaERedireciona('ERRO: Este email já está cadastrado!', '../Hub/Profile/profile-profissional.php');
         }
-        $row = mysqli_fetch_assoc($result);
 
-        $nome = $_POST["name"];
-        $email = $_POST["email"];
-        $telefone = $_POST["phone"];
-
-        $sql = "UPDATE profissional SET nome='{$nome}',
-                                                email='{$email}',
-                                                telefone='{$telefone}'
-                                            WHERE
-                                                profissional_id = '{$row['profissional_id']}'";
-        $result = $conn->query($sql);
+        $stmt = $conn->prepare("UPDATE profissional SET nome = ?, email = ?, telefone = ? WHERE profissional_id = ?");
+        $stmt->bind_param("sssi", $nome, $email, $telefone, $row['profissional_id']);
+        $result = $stmt->execute();
 
         if ($result == true) {
             $_SESSION['email'] = $email;
-            print "<script>alert('Edição concluída!');</script>";
-            print "<script>location.href='../Hub/Profile/profile-profissional.php';</script>";
+            alertaERedireciona('Edição concluída!', '../Hub/Profile/profile-profissional.php');
         } else {
-            print "<script>alert('ERRO: Não foi possível concluir a edição!');</script>";
-            print "<script>location.href='../Hub/Profile/profile-profissional.php';</script>";
+            alertaERedireciona('ERRO: Não foi possível concluir a edição!', '../Hub/Profile/profile-profissional.php');
         }
         break;
     case 'esquecisenha':
-        session_start();
+        exigirLogin('user', '../Login/login.php');
+        $row = buscarConta($conn, 'user', $_SESSION['email']);
 
-        $code = $_POST["code"];
-        $newpass = $_POST["psw"];
+        $code = trim($_POST["code"] ?? "");
+        $newpass = $_POST["psw"] ?? "";
 
-        $query = "SELECT verify_cod FROM user WHERE email = '{$_SESSION['email']}' AND verify_cod = '{$code}'";
-        $result = mysqli_query($conn, $query);
-        if (!$result) {
-            echo "Erro na consulta: " . mysqli_error($conn);
-            exit();
+        //O código precisa ser o da conta logada
+        if ($newpass === "" || !hash_equals((string) $row['verify_cod'], $code)) {
+            alertaERedireciona('ERRO: Código inválido!', '../Hub/password.php');
         }
+
+        //Troca a senha e gera um novo código, para que o antigo não possa ser reutilizado
+        $hash = password_hash($newpass, PASSWORD_DEFAULT);
+        $novoCodigo = gerarCodigo();
+        $stmt = $conn->prepare("UPDATE user SET senha = ?, verify_cod = ? WHERE user_id = ?");
+        $stmt->bind_param("ssi", $hash, $novoCodigo, $row['user_id']);
+        $result = $stmt->execute();
+
         if ($result == true) {
-            //não esta reconhecndo o $newpass
-            $query = "UPDATE user SET senha= '{$newpass}' WHERE verify_cod = '{$code}'";
-            $result = mysqli_query($conn, $query);
-            print "<script>alert('Edição concluída!');</script>";
-            print "<script>location.href='../Hub/Profile/profile.php';</script>";
+            alertaERedireciona('Edição concluída!', '../Hub/Profile/profile.php');
         } else {
-            print "<script>alert('ERRO: Não foi possível concluir a edição!');</script>";
-            print "<script>location.href='../Hub/Profile/profile.php';</script>";
+            alertaERedireciona('ERRO: Não foi possível concluir a edição!', '../Hub/Profile/profile.php');
         }
         break;
     case 'Excluir Perfil':
-        session_start();
-
-        $query = "SELECT * FROM user WHERE email = '{$_SESSION['email']}'";
-        $result = mysqli_query($conn, $query);
-        $row = mysqli_fetch_assoc($result);
-        if (!$result) {
-            echo "Erro na consulta: " . mysqli_error($conn);
-            exit();
+        exigirLogin('user', '../Login/login.php');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            alertaERedireciona('ERRO: Requisição inválida!', '../Hub/Profile/profile.php');
         }
+        $row = buscarConta($conn, 'user', $_SESSION['email']);
 
-        /* $email = $_POST["email"]; */
+        //As piscinas são removidas junto pelo ON DELETE CASCADE, mas apagamos antes por garantia
+        $stmt = $conn->prepare("DELETE FROM piscina WHERE fk_user_id = ?");
+        $stmt->bind_param("i", $row['user_id']);
+        $teste = $stmt->execute();
 
-        $sql = "DELETE FROM user WHERE email = '{$_SESSION['email']}'";
-        $result = $conn->query($sql);
+        $stmt = $conn->prepare("DELETE FROM user WHERE user_id = ?");
+        $stmt->bind_param("i", $row['user_id']);
+        $result = $stmt->execute();
 
-        $delete = "DELETE FROM piscina WHERE fk_user_id = {$row['user_id']}";
-        $teste = $conn->query($delete);
         if ($result == true && $teste == true) {
-            /* $_SESSION['email'] = $email; */
-            print "<script>alert('Exclusão concluída!');</script>";
-            print "<script>location.href='../index.html';</script>";
+            session_destroy();
+            alertaERedireciona('Exclusão concluída!', '../index.html');
         } else {
-            print "<script>alert('ERRO: Não foi possível concluir a exclusao!');</script>";
-            print "<script>location.href='../Hub/Profile/profile.php';</script>";
+            alertaERedireciona('ERRO: Não foi possível concluir a exclusao!', '../Hub/Profile/profile.php');
         }
         break;
-    case 'Excluir Conta': //Testar todo esse coódigo
-        session_start();
-        $sql = "DELETE FROM profissional WHERE email = '{$_SESSION['email']}'";
-        $result = $conn->query($sql);
+    case 'Excluir Conta':
+        exigirLogin('profissional', '../Login/login.php');
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            alertaERedireciona('ERRO: Requisição inválida!', '../Hub/Profile/profile-profissional.php');
+        }
+        $stmt = $conn->prepare("DELETE FROM profissional WHERE email = ?");
+        $stmt->bind_param("s", $_SESSION['email']);
+        $result = $stmt->execute();
+
         if ($result == true) {
-            print "<script>alert('Exclusão concluída!');</script>";
-            print "<script>location.href='../index.html';</script>";
+            session_destroy();
+            alertaERedireciona('Exclusão concluída!', '../index.html');
         } else {
-            print "<script>alert('ERRO: Não foi possível concluir a exclusao!');</script>";
-            print "<script>location.href='../Hub/Profile/profile-profissional.php';</script>";
+            alertaERedireciona('ERRO: Não foi possível concluir a exclusao!', '../Hub/Profile/profile-profissional.php');
         }
         break;
 }

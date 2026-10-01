@@ -1,17 +1,14 @@
 <?php
 include('../../database/config.php');
-session_start();
+exigirLogin('profissional', '../../Login/login.php');
 //Crio o caminho do botao adicionar piscina
 $link = "../Pool\CriarPiscina/pool.php";
 
 //Select do usuário
-$query = "SELECT * FROM profissional WHERE email = '{$_SESSION['email']}'";
-$result = mysqli_query($conn, $query);
-//Armazenar valores consulta usuário
-$row = mysqli_fetch_assoc($result);
+$row = buscarConta($conn, 'profissional', $_SESSION['email']);
 
-if (!$result) {
-    echo "Erro na consulta: " . mysqli_error($conn);
+if (!$row) {
+    echo "Erro na consulta: conta não encontrada.";
     exit();
 }
 
@@ -58,7 +55,7 @@ if (!$result) {
                         person
                     </span>
                     <p class="text-left ml-3" id="user">
-                        <?php echo $row['nome'] ?>
+                        <?php echo e($row['nome']) ?>
                     </p>
                 </div>
                 <div class="mail flex w-full col-span-2 truncate">
@@ -66,7 +63,7 @@ if (!$result) {
                         mail
                     </span>
                     <p class="text-left ml-3" id="email">
-                        <?php echo $row['email'] ?>
+                        <?php echo e($row['email']) ?>
                     </p>
                 </div>
                 <div class="phone flex w-full col-span-2">
@@ -76,7 +73,7 @@ if (!$result) {
                     <p class="text-left ml-3" id="phone">
                         <?php
                         if ($row['telefone'] != '')
-                            echo $row['telefone'];
+                            echo e($row['telefone']);
                         else
                             echo 'Você não cadastrou esses dados';
                         ?>
@@ -88,12 +85,12 @@ if (!$result) {
                 <a href="../password.php"
                     class="changePsw rounded-lg bg-blue-500 transition duration-700 ease-in-out hover:bg-blue-600 w-full row-span-2 flex items-center justify-center md:row-start-5 md:row-span-2 md:col-span-1 md:h-full md:bg-blue-800 md:hover:bg-indigo-700 py-3">
                     Alterar Senha</a>
-                <a href="../../index.html"
+                <a href="../logout.php"
                     class="edit rounded-lg bg-red-500 transition duration-700 ease-in-out hover:bg-red-600 w-full row-span-2 flex items-center justify-center md:row-start-7 md:row-span-2 md:col-span-1 md:h-full md:bg-red-800 md:hover:bg-red-600 py-3">
                     Logout</a>
                 <form
                     class="edit cursor-pointer rounded-lg bg-red-500 transition duration-700 ease-in-out hover:bg-red-600 w-full row-span-2 flex items-center justify-center md:row-start-7 md:row-span-2 md:col-span-1 md:h-full md:bg-red-700 md:hover:bg-red-500 py-3"
-                    action="../../database/database.php">
+                    method="POST" action="../../database/database.php">
                     <input type="submit" name="acao" value="Excluir Conta">
                 </form>
             </div>
