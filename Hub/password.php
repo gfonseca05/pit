@@ -1,23 +1,22 @@
 <?php
 require_once("../database/config.php");
 require_once("../database/PHPMailer/mail.php");
-session_start();
+exigirLogin('user', '../Login/login.php');
 
-if (!isset($_SESSION['email'])) {
-  header("Location: ../Login/login.php");
+$row = buscarConta($conn, 'user', $_SESSION['email']);
+
+if (!$row) {
+  echo "Erro na consulta: conta não encontrada.";
   exit();
 }
 
-$query = "SELECT * FROM user WHERE email = '{$_SESSION['email']}'";
-$result = mysqli_query($conn, $query);
+//Gera um código novo a cada envio, assim um código antigo não serve mais
+$codigo = gerarCodigo();
+$stmt = $conn->prepare("UPDATE user SET verify_cod = ? WHERE user_id = ?");
+$stmt->bind_param("si", $codigo, $row['user_id']);
+$stmt->execute();
 
-if (!$result) {
-  echo "Erro na consulta: " . mysqli_error($conn);
-  exit();
-}
-
-$row = mysqli_fetch_assoc($result);
-sendEmail($row['email'], $row['nome'], $row['verify_cod']);
+sendEmail($row['email'], $row['nome'], $codigo);
 ?>
 
 <!DOCTYPE html>

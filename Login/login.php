@@ -1,45 +1,17 @@
 <?php
 include("../database/config.php");
-$email = "";
 if (isset($_POST['login'])) {
-  $email = $_POST["email"];
-  $password = $_POST["psw"];
+  $email = trim($_POST["email"] ?? "");
+  $password = $_POST["psw"] ?? "";
 
-  //Seleciona a conta de usuario com o email forcecido
-  $sql = "SELECT * FROM user WHERE email = '{$email}'";
-  $result = mysqli_query($conn, $sql);
+  //Procura o email nas contas de usuário e de profissional
+  $destino = fazerLogin($conn, $email, $password);
 
-  //Seleciona a conta de profissional com o email forcecido
-  $query = "SELECT * FROM profissional WHERE email = '{$email}'";
-  $resultado = mysqli_query($conn, $query);
-
-  if ($result && mysqli_num_rows($result) > 0) {
-    $user = mysqli_fetch_assoc($result);
-    $hashedPassword = $user['senha'];
-
-    if ($password == $hashedPassword) {
-      echo "<script>alert('Login bem-sucedido.');</script>";
-      session_start();
-      //atribui o valor da coluna email à sessao
-      $_SESSION['email'] = $email;
-      echo "<script>location.href='../Hub/Profile/profile.php';</script>";
-    } else {
-      echo "<script>alert('Senha de Usuário Incorreta!');</script>";
-    }
-  } else if ($resultado && mysqli_num_rows($resultado) > 0) {
-    $user = mysqli_fetch_assoc($resultado);
-    $profissionalPassword = $user['senha'];
-
-    if ($password == $profissionalPassword) {
-      echo "<script>alert('Login bem-sucedido.');</script>";
-      session_start();
-      //atribui o valor da coluna email à sessao
-      $_SESSION['email'] = $email;
-      echo "<script>location.href='../Hub/Profile/profile-profissional.php';</script>";
-    } else {
-      echo "<script>alert('Senha de Profissional Incorreta!');</script>";
-    }
+  if ($destino !== null) {
+    echo "<script>alert('Login bem-sucedido.');</script>";
+    echo "<script>location.href='{$destino}';</script>";
   } else {
+    //Mensagem genérica para não revelar quais emails estão cadastrados
     echo "<script>alert('Email ou senha inválidos.');</script>";
   }
 }

@@ -1,40 +1,25 @@
 <?php
 include_once("../../../database/config.php");
-session_start();
+exigirLogin('user', '../../../Login/login.php');
 
-$poolName = $_GET['value'];
-$sql = "SELECT proximaLimpeza FROM piscina WHERE fk_user_id = {$_SESSION['user_id']} AND nome = '{$poolName}'";
+$conta = buscarConta($conn, 'user', $_SESSION['email']);
+$poolName = $_GET['value'] ?? '';
+$dataFormatada = '0000-00-00';
+$dataFormatada2 = '0000-00-00';
 
-$resultado = $conn->query($sql);
+$stmt = $conn->prepare("SELECT proximaLimpeza, ultimaLimpeza FROM piscina WHERE fk_user_id = ? AND nome = ?");
+$stmt->bind_param("is", $conta['user_id'], $poolName);
+$stmt->execute();
+$resultado = $stmt->get_result();
 if ($resultado->num_rows > 0) {
     $row = $resultado->fetch_assoc();
     $data = $row["proximaLimpeza"];
-    if ($data === null || $data === '0000-00-00') {
-        $dataFormatada = '0000-00-00';
-    } else {
+    if ($data !== null && $data !== '0000-00-00') {
         $dataFormatada = date("Y-m-d", strtotime($data));
-        if ($dataFormatada === false) {
-            $data = '0000-00-00';
-        }
     }
-} else {
-    echo "Nenhum resultado encontrado.";
-}
-
-
-$query = "SELECT ultimaLimpeza FROM piscina WHERE fk_user_id = {$_SESSION['user_id']} AND nome = '{$poolName}'";
-
-$result = $conn->query($query);
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
     $data2 = $row["ultimaLimpeza"];
-    if ($data2 === null || $data2 === '0000-00-00') {
-        $dataFormatada2 = '0000-00-00';
-    } else {
+    if ($data2 !== null && $data2 !== '0000-00-00') {
         $dataFormatada2 = date("Y-m-d", strtotime($data2));
-        if ($dataFormatada2 === false) {
-            $data2 = '0000-00-00';
-        }
     }
 } else {
     echo "Nenhum resultado encontrado.";
@@ -65,7 +50,7 @@ if ($result->num_rows > 0) {
 <body>
     <div class="min-h-screen w-full flex items-center justify-center bg-gray-50">
         <form action="../../../database/poolTable/poolUpdate.php" method="POST">
-            <input type="hidden" name="variavel" value="<?php echo $poolName; ?>">
+            <input type="hidden" name="variavel" value="<?php echo e($poolName); ?>">
             <h1 class="mb-1 font-bold text-3xl flex gap-1 items-baseline font-mono">Datas de Limpeza<span
                     class="text-sm text-blue-500">atualize as datas</sm>
             </h1>
@@ -75,7 +60,7 @@ if ($result->num_rows > 0) {
                         class="bg-white flex min-h-[60px] flex-col-reverse justify-center rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:shadow-inner">
                         <input type="text" id="nextClean" oninput="formatDate(this)" name="prox"
                             class="peer block w-full border-0 p-0 text-base text-gray-900 placeholder-gray-400 focus:ring-0"
-                            placeholder="AAAA/MM/DD" value="<?php echo $dataFormatada ?>" />
+                            placeholder="AAAA/MM/DD" value="<?php echo e($dataFormatada) ?>" />
                         <label
                             class="block transform text-xs font-bold uppercase text-gray-400 transition-opacity, duration-200 peer-placeholder-shown:h-0 peer-placeholder-shown:-translate-y-full peer-placeholder-shown:opacity-0">Próxima
                             Limpeza
@@ -93,7 +78,7 @@ if ($result->num_rows > 0) {
                         class="bg-white first:flex min-h-[60px] flex-col-reverse justify-center rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:shadow-inner">
                         <input type="text" id="lastClean" oninput="formatDate(this)" name="ult"
                             class="peer block w-full border-0 p-0 text-base text-gray-900 placeholder-gray-400 focus:ring-0"
-                            placeholder="AAAA/MM/DD" value="<?php echo $dataFormatada2 ?>" />
+                            placeholder="AAAA/MM/DD" value="<?php echo e($dataFormatada2) ?>" />
                         <label
                             class="block transform text-xs font-bold uppercase text-gray-400 transition-opacity, duration-200 peer-placeholder-shown:h-0 peer-placeholder-shown:-translate-y-full peer-placeholder-shown:opacity-0">Última
                             Limpeza

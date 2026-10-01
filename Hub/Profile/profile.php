@@ -1,27 +1,27 @@
 <?php
 include('../../database/config.php');
-session_start();
+exigirLogin('user', '../../Login/login.php');
 //Crio o caminho do botao adicionar piscina
 $link = "../Pool\CriarPiscina/pool.php";
 
 //Select do usuário
-$query = "SELECT * FROM user WHERE email = '{$_SESSION['email']}'";
-$result = mysqli_query($conn, $query);
-//Armazenar valores consulta usuário
-$row = mysqli_fetch_assoc($result);
+$row = buscarConta($conn, 'user', $_SESSION['email']);
+if (!$row) {
+    echo "Erro na consulta: conta não encontrada.";
+    exit();
+}
 
 //Select da piscina
-$consulta = "SELECT * FROM piscina WHERE fk_user_id = '{$row['user_id']}'";
-$resultado = mysqli_query($conn, $consulta);
+$stmt = $conn->prepare("SELECT * FROM piscina WHERE fk_user_id = ?");
+$stmt->bind_param("i", $row['user_id']);
+$stmt->execute();
+$resultado = $stmt->get_result();
 
-//Consulta de quantos resultados tem na piscina
-$contar = "SELECT COUNT(piscina_id) AS 'QUANTIDADE' FROM piscina WHERE fk_user_id = '{$row['user_id']}'";
-$resultado2 = mysqli_query($conn, $contar);
-//Armazenar numero de resultados
-$quant = mysqli_fetch_assoc($resultado2);
+//Quantos resultados tem na piscina
+$quant = ['QUANTIDADE' => $resultado->num_rows];
 
 $_SESSION['user_id'] = $row['user_id'];
-if (!$result || !$resultado || !$resultado2) {
+if (!$resultado) {
     echo "Erro na consulta: " . mysqli_error($conn);
     exit();
 }
@@ -115,7 +115,7 @@ if ($quant['QUANTIDADE'] == 1) {
                         person
                     </span>
                     <p class="text-left ml-3" id="user">
-                        <?php echo $row['nome'] ?>
+                        <?php echo e($row['nome']) ?>
                     </p>
                 </div>
                 <div class="mail flex w-full col-span-2" onmouseover="removeTruncate()" onmouseleave="addTruncate()">
@@ -123,7 +123,7 @@ if ($quant['QUANTIDADE'] == 1) {
                         mail
                     </span>
                     <p class="text-left ml-3 truncate hover:bg-slate-700 rounded-md pr-2 cursor-default" id="email">
-                        <?php echo $row['email'] ?>
+                        <?php echo e($row['email']) ?>
                     </p>
                 </div>
                 <div class="phone flex w-full col-span-2">
@@ -133,7 +133,7 @@ if ($quant['QUANTIDADE'] == 1) {
                     <p class="text-left ml-3" id="phone">
                         <?php
                         if ($row['telefone'] != '')
-                            echo $row['telefone'];
+                            echo e($row['telefone']);
                         else
                             echo 'Você não cadastrou esses dados';
                         ?>
@@ -146,7 +146,7 @@ if ($quant['QUANTIDADE'] == 1) {
                     <p class="text-left ml-3" id="address">
                         <?php
                         if ($row['endereco'] != '')
-                            echo $row['endereco'];
+                            echo e($row['endereco']);
                         else
                             echo 'Você não cadastrou esses dados';
                         ?>
@@ -158,12 +158,12 @@ if ($quant['QUANTIDADE'] == 1) {
                 <a href="../password.php"
                     class="changePsw rounded-lg bg-blue-500 transition duration-700 ease-in-out hover:bg-blue-600 w-full row-span-2 flex items-center justify-center md:row-start-5 md:row-span-2 md:col-span-1 md:h-full md:bg-blue-800 md:hover:bg-indigo-700 py-3">
                     Alterar Senha</a>
-                <a href="../../index.html"
+                <a href="../logout.php"
                     class="edit rounded-lg bg-red-500 transition duration-700 ease-in-out hover:bg-red-600 w-full row-span-2 flex items-center justify-center md:row-start-7 md:row-span-2 md:col-span-1 md:h-full md:bg-red-800 md:hover:bg-red-600 py-3">
                     Logout</a>
                 <form
                     class="edit cursor-pointer rounded-lg bg-red-500 transition duration-700 ease-in-out hover:bg-red-600 w-full row-span-2 flex items-center justify-center md:row-start-7 md:row-span-2 md:col-span-1 md:h-full md:bg-red-700 md:hover:bg-red-500 py-3"
-                    action="../../database/database.php">
+                    method="POST" action="../../database/database.php">
                     <input type="submit" name="acao" value="Excluir Perfil">
                 </form>
 
@@ -192,24 +192,24 @@ if ($quant['QUANTIDADE'] == 1) {
                         if($primeiroResultado['ultimaLimpeza'] == '0000-00-00') {
                             $primeiroResultado['ultimaLimpeza'] = "";
                         }
-                        echo "Apelido: " . $primeiroResultado['nome'] . "</br>";
-                        echo "Largura: " . $primeiroResultado['largura'] . "m</br>";
-                        echo "Altura: " . $primeiroResultado['altura'] . "m</br>";
-                        echo "Comprimento: " . $primeiroResultado['comprimento'] . "m</br>";
-                        echo "Próxima Limpeza: " . $primeiroResultado['proximaLimpeza'] . "</br>";
-                        echo "Última Limpeza: " . $primeiroResultado['ultimaLimpeza'] . "</br>";
+                        echo "Apelido: " . e($primeiroResultado['nome']) . "</br>";
+                        echo "Largura: " . e($primeiroResultado['largura']) . "m</br>";
+                        echo "Altura: " . e($primeiroResultado['altura']) . "m</br>";
+                        echo "Comprimento: " . e($primeiroResultado['comprimento']) . "m</br>";
+                        echo "Próxima Limpeza: " . e($primeiroResultado['proximaLimpeza']) . "</br>";
+                        echo "Última Limpeza: " . e($primeiroResultado['ultimaLimpeza']) . "</br>";
                         $_SESSION['poolNameOne'] = $primeiroResultado['nome'];
                     }
                     ?>
                 </div>
-                <form id="btnPool1" action="../../database/poolTable/pooldelete.php" method="post"
+                <form id="btnPool1" action="../../database/poolTable/pooldelete.php" method="POST"
                     class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500 ">
                     <input class="w-full h-full cursor-pointer" type="submit" name="delete" value="1">
                 </form>
                 <a href="<?php if ($primeiroResultado == "") {
                     echo "";
                 } else {
-                    echo '../Pool/CriarPiscina/updatePool.php?value=' . $primeiroResultado['nome'];
+                    echo '../Pool/CriarPiscina/updatePool.php?value=' . e(urlencode($primeiroResultado['nome']));
                 } ?>" id="editBtn1" class="absolute bottom-0 right-0 h-fit w-fit z-100 hover:text-slate-700"><span
                         class="material-symbols-outlined">
                         edit
@@ -228,24 +228,24 @@ if ($quant['QUANTIDADE'] == 1) {
                         if($segundoResultado['ultimaLimpeza'] == '0000-00-00') {
                             $segundoResultado['ultimaLimpeza'] = "";
                         }
-                        echo "Apelido: " . $segundoResultado['nome'] . "</br>";
-                        echo "Largura: " . $segundoResultado['largura'] . "m</br>";
-                        echo "Altura: " . $segundoResultado['altura'] . "m</br>";
-                        echo "Comprimento: " . $segundoResultado['comprimento'] . "m</br>";
-                        echo "Próxima Limpeza: " . $segundoResultado['proximaLimpeza'] . "</br>";
-                        echo "Última Limpeza: " . $segundoResultado['ultimaLimpeza'] . "</br>";
+                        echo "Apelido: " . e($segundoResultado['nome']) . "</br>";
+                        echo "Largura: " . e($segundoResultado['largura']) . "m</br>";
+                        echo "Altura: " . e($segundoResultado['altura']) . "m</br>";
+                        echo "Comprimento: " . e($segundoResultado['comprimento']) . "m</br>";
+                        echo "Próxima Limpeza: " . e($segundoResultado['proximaLimpeza']) . "</br>";
+                        echo "Última Limpeza: " . e($segundoResultado['ultimaLimpeza']) . "</br>";
                         $_SESSION['poolNameTwo'] = $segundoResultado['nome'];
                     }
                     ?>
                 </div>
-                <form id="btnPool2" action="../../../database/poolTable/pooldelete.php" method="post"
+                <form id="btnPool2" action="../../database/poolTable/pooldelete.php" method="POST"
                     class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500 ">
                     <input class="w-full h-full cursor-pointer" type="submit" name="delete" value="2">
                 </form>
                 <a href="<?php if ($segundoResultado == "") {
                     echo "";
                 } else {
-                    echo "../Pool/CriarPiscina/updatePool.php?value=" . $segundoResultado['nome'];
+                    echo "../Pool/CriarPiscina/updatePool.php?value=" . e(urlencode($segundoResultado['nome']));
                 } ?>" id="editBtn2" class=" absolute bottom-0 right-0 hfit5 wfit5 z-10 hover:text-slate-700"><span
                         class="material-symbols-outlined">
                         edit
@@ -263,24 +263,24 @@ if ($quant['QUANTIDADE'] == 1) {
                         if($terceiroResultado['ultimaLimpeza'] == '0000-00-00') {
                             $terceiroResultado['ultimaLimpeza'] = "";
                         }
-                        echo "Apelido: " . $terceiroResultado['nome'] . "</br>";
-                        echo "Largura: " . $terceiroResultado['largura'] . "m</br>";
-                        echo "Altura: " . $terceiroResultado['altura'] . "m</br>";
-                        echo "Comprimento: " . $terceiroResultado['comprimento'] . "m</br>";
-                        echo "Próxima Limpeza: " . $terceiroResultado['proximaLimpeza'] . "</br>";
-                        echo "Última Limpeza: " . $terceiroResultado['ultimaLimpeza'] . "</br>";
+                        echo "Apelido: " . e($terceiroResultado['nome']) . "</br>";
+                        echo "Largura: " . e($terceiroResultado['largura']) . "m</br>";
+                        echo "Altura: " . e($terceiroResultado['altura']) . "m</br>";
+                        echo "Comprimento: " . e($terceiroResultado['comprimento']) . "m</br>";
+                        echo "Próxima Limpeza: " . e($terceiroResultado['proximaLimpeza']) . "</br>";
+                        echo "Última Limpeza: " . e($terceiroResultado['ultimaLimpeza']) . "</br>";
                         $_SESSION['poolNameThree'] = $terceiroResultado['nome'];
                     }
                     ?>
                 </div>
-                <form id="btnPool3" action="../../../database/poolTable/pooldelete.php" method="post"
+                <form id="btnPool3" action="../../database/poolTable/pooldelete.php" method="POST"
                     class="absolute top-0 right-0 h-5 w-5 z-100 bg-red-500 ">
                     <input class="w-full h-full cursor-pointer" type="submit" name="delete" value="3">
                 </form>
                 <a href="<?php if ($terceiroResultado == "") {
                     echo "";
                 } else {
-                    echo "../Pool/CriarPiscina/updatePool.php?value=" . $terceiroResultado['nome'];
+                    echo "../Pool/CriarPiscina/updatePool.php?value=" . e(urlencode($terceiroResultado['nome']));
                 } ?>" id="editBtn3" class=" absolute bottom-0 right-0 hfit5 wfit5 z-10 hover:text-slate-700"><span
                         class="material-symbols-outlined">
                         edit

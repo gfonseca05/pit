@@ -1,36 +1,32 @@
 <?php
     include_once("../config.php");
-    session_start();
+    exigirLogin('user', '../../Login/login.php');
 
-    $query = "SELECT * FROM user WHERE email = '{$_SESSION['email']}'";
-    $result = mysqli_query($conn, $query);
-    $row = mysqli_fetch_assoc($result);
+    $row = buscarConta($conn, 'user', $_SESSION['email']);
 
-    $nome = $_POST["poolName"];
-    $largura = $_POST["width"];
-    $profundidade = $_POST["height"];
-    $comprimento = $_POST["depth"];
-    /* $proxLimpeza = $_POST["nextClean"];
-    $ultLimpeza = $_POST["lastClean"]; */
+    $nome = trim($_POST["poolName"] ?? "");
+    $largura = (float) ($_POST["width"] ?? 0);
+    $profundidade = (float) ($_POST["height"] ?? 0);
+    $comprimento = (float) ($_POST["depth"] ?? 0);
     $cod_user = $row['user_id'];
-    if($_POST["nextClean"] == "") {
+    if(($_POST["nextClean"] ?? "") == "") {
         $proxLimpeza = '0000/00/00';
     }
     else {
         $proxLimpeza = $_POST["nextClean"];
     }
-    if($_POST["lastClean"] == "") {
+    if(($_POST["lastClean"] ?? "") == "") {
         $ultLimpeza = '0000/00/00';
     }
     else {
         $ultLimpeza = $_POST["lastClean"];
     }
-        
-    $sql = "INSERT INTO piscina (nome, largura, altura, comprimento, proximaLimpeza, ultimaLimpeza, fk_user_id) VALUES ('{$nome}', '{$largura}', '{$profundidade}', '{$comprimento}', '{$proxLimpeza}', '{$ultLimpeza}', {$cod_user});";
-    $result = $conn->query($sql);
+
+    $stmt = $conn->prepare("INSERT INTO piscina (nome, largura, altura, comprimento, proximaLimpeza, ultimaLimpeza, fk_user_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sdddssi", $nome, $largura, $profundidade, $comprimento, $proxLimpeza, $ultLimpeza, $cod_user);
+    $result = $stmt->execute();
     if($result==true){
-        print "<script>alert('Cadastro concluído!');</script>";
-        print "<script>location.href='../../Hub/Profile/profile.php';</script>";
+        alertaERedireciona('Cadastro concluído!', '../../Hub/Profile/profile.php');
     }else{
         print "<script>alert('ERRO: Não foi possível cadastrar a piscina!');</script>";
     }
